@@ -131,3 +131,9 @@ schedule:
 - **Refresh time**: change the `cron` in `refresh.yml`
 - **Data shape**: edit `fetch-data.js` — add fields like `topics`, `license`, `default_branch`, etc.
 - **UI**: edit `docs/index.html` — it's plain HTML/CSS/JS with no build step
+
+## Current pages
+
+[napari](https://willingc.github.io/my-org-dashboard/orgs/napari/)
+[pyOpenSci](https://willingc.github.io/my-org-dashboard/orgs/pyopensci/)
+
