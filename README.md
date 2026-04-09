@@ -136,4 +136,6 @@ schedule:
 
 [napari](https://willingc.github.io/my-org-dashboard/orgs/napari/)
 [pyOpenSci](https://willingc.github.io/my-org-dashboard/orgs/pyopensci/)
-
+[jupyterhub](https://willingc.github.io/my-org-dashboard/orgs/jupyterhub/)
+[nteract](https://willingc.github.io/my-org-dashboard/orgs/nteract/)
+[python](https://willingc.github.io/my-org-dashboard/orgs/python/)
