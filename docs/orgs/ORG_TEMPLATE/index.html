@@ -24,7 +24,6 @@
       --danger-bg:    #fef2f2;
       --danger-text:  #991b1b;
       --radius:       8px;
-      --radius-lg:    12px;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -57,7 +56,6 @@
       line-height: 1.5;
     }
 
-    /* ── Header ── */
     .page-header {
       display: flex;
       align-items: baseline;
@@ -69,37 +67,23 @@
 
     h1 { font-size: 20px; font-weight: 600; }
 
-    .org-link {
-      font-size: 13px;
-      color: var(--accent);
-      text-decoration: none;
-    }
+    .org-link { font-size: 13px; color: var(--accent); text-decoration: none; }
     .org-link:hover { text-decoration: underline; }
 
-    .subtitle {
-      font-size: 13px;
-      color: var(--text-sec);
-      margin-bottom: 1.5rem;
-    }
+    .subtitle { font-size: 13px; color: var(--text-sec); margin-bottom: 1.5rem; }
 
-    /* ── Stats bar ── */
+    /* Stats */
     .stats-bar {
       display: grid;
       grid-template-columns: repeat(4, minmax(0,1fr));
       gap: 10px;
       margin-bottom: 1.25rem;
     }
-
-    .stat-card {
-      background: var(--bg-secondary);
-      border-radius: var(--radius);
-      padding: 12px 14px;
-    }
-
+    .stat-card { background: var(--bg-secondary); border-radius: var(--radius); padding: 12px 14px; }
     .stat-label { font-size: 11px; color: var(--text-sec); margin-bottom: 4px; }
     .stat-val   { font-size: 22px; font-weight: 600; }
 
-    /* ── Filters ── */
+    /* Filters */
     .filters {
       display: flex;
       gap: 10px;
@@ -107,7 +91,6 @@
       margin-bottom: 1rem;
       flex-wrap: wrap;
     }
-
     input[type="text"], select {
       height: 32px;
       padding: 0 10px;
@@ -118,7 +101,6 @@
       font-size: 13px;
       outline: none;
     }
-
     input[type="text"] { flex: 1; min-width: 160px; }
     input[type="text"]:focus, select:focus { border-color: var(--accent); }
 
@@ -131,9 +113,8 @@
       cursor: pointer;
     }
 
-    /* ── Table ── */
+    /* Table */
     .table-wrap { overflow-x: auto; }
-
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
 
     th {
@@ -159,41 +140,23 @@
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: var(--bg-secondary); }
 
-    a.repo-link {
-      font-weight: 500;
-      color: var(--accent);
-      text-decoration: none;
-    }
+    a.repo-link { font-weight: 500; color: var(--accent); text-decoration: none; }
     a.repo-link:hover { text-decoration: underline; }
 
-    /* ── Badges ── */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 9px;
-      border-radius: 99px;
-      font-size: 11px;
-      font-weight: 500;
-    }
+    /* Badges */
+    .badge { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 99px; font-size: 11px; font-weight: 500; }
     .b-warn { background: var(--warn-bg);      color: var(--warn-text); }
     .b-info { background: var(--accent-bg);    color: var(--accent); }
     .b-zero { background: var(--bg-secondary); color: var(--text-ter); }
-    .b-arch {
-      background: var(--bg-secondary);
-      color: var(--text-ter);
-      font-size: 10px;
-      padding: 1px 7px;
-      margin-left: 6px;
-      border-radius: 4px;
-    }
+    .b-arch { background: var(--bg-secondary); color: var(--text-ter); font-size: 10px; padding: 1px 7px; margin-left: 6px; border-radius: 4px; }
 
-    /* ── Date colours ── */
+    /* Date colours */
     .fresh { color: var(--success); }
     .stale { color: var(--danger); }
     .muted { color: var(--text-sec); }
     .dim   { color: var(--text-ter); font-style: italic; }
 
-    /* ── Error / loading ── */
+    /* Error / loading */
     .error-box {
       background: var(--danger-bg);
       color: var(--danger-text);
@@ -203,18 +166,11 @@
       font-size: 13px;
       line-height: 1.6;
     }
-
-    .msg-cell {
-      text-align: center;
-      padding: 2.5rem;
-      color: var(--text-sec);
-      font-size: 14px;
-    }
-
+    .msg-cell { text-align: center; padding: 2.5rem; color: var(--text-sec); font-size: 14px; }
     .spin { display: inline-block; animation: spin 0.9s linear infinite; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Footer ── */
+    /* Footer */
     footer {
       margin-top: 2rem;
       font-size: 12px;
@@ -224,7 +180,6 @@
       flex-wrap: wrap;
       gap: 4px;
     }
-
     footer a { color: var(--text-ter); }
     footer a:hover { color: var(--text-sec); }
   </style>
@@ -235,7 +190,7 @@
     <h1 id="page-title">GitHub Org Dashboard</h1>
     <a id="org-link" class="org-link" href="#" target="_blank" rel="noopener noreferrer"></a>
   </div>
-  <p class="subtitle" id="subtitle">Loading…</p>
+  <p class="subtitle" id="subtitle"><span class="spin">⟳</span> Loading…</p>
 
   <div id="error-box" class="error-box" style="display:none"></div>
 
@@ -277,24 +232,20 @@
         </tr>
       </thead>
       <tbody id="tbody">
-        <tr><td colspan="6" class="msg-cell"><span class="spin">⟳</span>Loading…</td></tr>
+        <tr><td colspan="6" class="msg-cell"><span class="spin">⟳</span> Loading…</td></tr>
       </tbody>
     </table>
   </div>
 
   <footer>
     <span id="footer-updated"></span>
-    <span>Data refreshed daily via GitHub Actions</span>
+    <span>Data refreshed daily via <a href="../../actions" target="_blank">GitHub Actions</a></span>
   </footer>
 
   <script>
-    let allRepos   = [];
-    let sortCol    = "name";
-    let sortDir    = "asc";
+    let allRepos = [];
 
     const qs = s => document.querySelector(s);
-
-    // ── Date helpers ──────────────────────────────────────────────────────────
 
     function relDate(str) {
       if (!str) return null;
@@ -316,12 +267,8 @@
     }
 
     function fmtDateTime(iso) {
-      return new Date(iso).toLocaleString(undefined, {
-        dateStyle: "medium", timeStyle: "short"
-      });
+      return new Date(iso).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
     }
-
-    // ── Render ────────────────────────────────────────────────────────────────
 
     function renderTable() {
       const search    = qs("#search").value.toLowerCase();
@@ -330,15 +277,10 @@
       const hideArch  = qs("#hide-arch").checked;
       const hideForks = qs("#hide-forks").checked;
 
-      // Update header arrow highlights
       document.querySelectorAll("th[data-col]").forEach(th => {
         th.classList.toggle("active", th.dataset.col === col);
-        const arrow = th.querySelector(".arrow");
-        if (th.dataset.col === col) {
-          arrow.textContent = dir === "asc" ? "↑" : "↓";
-        } else {
-          arrow.textContent = "↕";
-        }
+        th.querySelector(".arrow").textContent =
+          th.dataset.col === col ? (dir === "asc" ? "↑" : "↓") : "↕";
       });
 
       let repos = allRepos.filter(r => {
@@ -351,20 +293,19 @@
 
       repos.sort((a, b) => {
         let va, vb;
-        if (col === "name")     { va = a.name.toLowerCase();   vb = b.name.toLowerCase(); }
-        if (col === "issues")   { va = a.open_issues;          vb = b.open_issues; }
-        if (col === "prs")      { va = a.open_prs;             vb = b.open_prs; }
-        if (col === "stars")    { va = a.stars;                vb = b.stars; }
-        if (col === "activity") { va = a.pushed_at  || "";     vb = b.pushed_at  || ""; }
-        if (col === "release")  { va = a.release?.published_at || ""; vb = b.release?.published_at || ""; }
+        if (col === "name")     { va = a.name.toLowerCase();              vb = b.name.toLowerCase(); }
+        if (col === "issues")   { va = a.open_issues;                     vb = b.open_issues; }
+        if (col === "prs")      { va = a.open_prs;                        vb = b.open_prs; }
+        if (col === "stars")    { va = a.stars;                           vb = b.stars; }
+        if (col === "activity") { va = a.pushed_at || "";                 vb = b.pushed_at || ""; }
+        if (col === "release")  { va = a.release?.published_at || "";     vb = b.release?.published_at || ""; }
         if (va < vb) return dir === "asc" ? -1 : 1;
         if (va > vb) return dir === "asc" ?  1 : -1;
         return 0;
       });
 
       if (!repos.length) {
-        qs("#tbody").innerHTML =
-          '<tr><td colspan="6" class="msg-cell">No repos match your filters.</td></tr>';
+        qs("#tbody").innerHTML = '<tr><td colspan="6" class="msg-cell">No repos match your filters.</td></tr>';
         return;
       }
 
@@ -401,13 +342,10 @@
       }).join("");
     }
 
-    // ── Column header click-to-sort ───────────────────────────────────────────
-
     document.querySelectorAll("th[data-col]").forEach(th => {
       th.addEventListener("click", () => {
         const col = th.dataset.col;
         if (qs("#sort-col").value === col) {
-          // Flip direction
           qs("#sort-dir").value = qs("#sort-dir").value === "asc" ? "desc" : "asc";
         } else {
           qs("#sort-col").value = col;
@@ -417,29 +355,22 @@
       });
     });
 
-    // ── Load data ─────────────────────────────────────────────────────────────
-
     async function init() {
       try {
-        // data.json lives next to index.html, committed by GitHub Actions
+        // data.json sits alongside this index.html in each org's folder
         const res = await fetch("data.json");
         if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
         const json = await res.json();
 
         allRepos = json.repos;
 
-        // Page title
         qs("#page-title").textContent = `${json.org} — Repo Dashboard`;
         document.title               = `${json.org} Dashboard`;
         qs("#org-link").href          = `https://github.com/${json.org}`;
         qs("#org-link").textContent   = `github.com/${json.org}`;
+        qs("#subtitle").textContent   = `${allRepos.length} repositories`;
+        qs("#footer-updated").textContent = `Last updated: ${fmtDateTime(json.fetched_at)}`;
 
-        // Subtitle / last updated
-        const updatedAt = fmtDateTime(json.fetched_at);
-        qs("#subtitle").textContent      = `${allRepos.length} repositories`;
-        qs("#footer-updated").textContent = `Last updated: ${updatedAt}`;
-
-        // Stats
         const totalIssues = allRepos.reduce((s, r) => s + r.open_issues, 0);
         const totalPRs    = allRepos.reduce((s, r) => s + r.open_prs, 0);
         const withRel     = allRepos.filter(r => r.release).length;
@@ -451,18 +382,15 @@
 
         qs("#stats-bar").style.display = "grid";
         qs("#filters").style.display   = "flex";
-
         renderTable();
 
       } catch (e) {
         qs("#subtitle").textContent = "";
         const box = qs("#error-box");
         box.innerHTML = `<strong>Failed to load data.json:</strong> ${e.message}
-          <br><small>If running locally, serve this folder with a local server (e.g.
-          <code>npx serve docs</code>) rather than opening the file directly.</small>`;
+          <br><small>If running locally, use a local server: <code>npx serve docs</code></small>`;
         box.style.display = "block";
-        qs("#tbody").innerHTML =
-          '<tr><td colspan="6" class="msg-cell">No data available.</td></tr>';
+        qs("#tbody").innerHTML = '<tr><td colspan="6" class="msg-cell">No data available.</td></tr>';
       }
     }
 
