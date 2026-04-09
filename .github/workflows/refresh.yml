@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write   # needed to commit data.json back to the repo
+  contents: write   # needed to commit data.json files back to the repo
 
 jobs:
   refresh:
@@ -24,17 +24,24 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Fetch GitHub org data
+      - name: Fetch data for all orgs
         env:
-          GH_ORG:   ${{ vars.GH_ORG }}    # set in repo Settings → Variables
-          GH_TOKEN: ${{ secrets.GH_TOKEN }} # set in repo Settings → Secrets
+          # GH_ORGS is a repo Variable (Settings → Variables → Actions)
+          # Set it to a comma-separated list, e.g.: acme,widgets,tools
+          GH_ORGS:  ${{ vars.GH_ORGS }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: node scripts/fetch-data.js
 
-      - name: Commit and push data.json
+      - name: Generate org pages from template
+        env:
+          GH_ORGS: ${{ vars.GH_ORGS }}
+        run: node scripts/generate-pages.js
+
+      - name: Commit and push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/data.json
+          git add docs/
           # Only commit if something actually changed
           git diff --cached --quiet || git commit -m "chore: refresh dashboard data [skip ci]"
           git push
