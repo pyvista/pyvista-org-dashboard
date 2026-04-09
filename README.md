@@ -50,7 +50,7 @@ In your repo on GitHub: **Settings → Secrets and variables → Actions**
 | Type | Name | Value |
 |---|---|---|
 | **Secret** | `GH_TOKEN` | your PAT from step 2 |
-| **Variable** | `GH_ORG` | your org slug, e.g. `mycompany` |
+| **Variable** | `GH_ORGS` | your org slug, e.g. `mycompany,org,org_2` |
 
 Secrets are encrypted and never logged. Variables are plain text (the org name is not sensitive).
 
