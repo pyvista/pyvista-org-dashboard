@@ -1,6 +1,6 @@
 {
   "org": "jupyterhub",
-  "fetched_at": "2026-04-12T06:37:49.669Z",
+  "fetched_at": "2026-04-13T06:50:31.233Z",
   "repos": [
     {
       "name": "jupyterhub",
@@ -25,8 +25,8 @@
       "fork": false,
       "private": false,
       "open_issues": 13,
-      "open_prs": 1,
-      "pushed_at": "2026-04-06T21:38:24Z",
+      "open_prs": 2,
+      "pushed_at": "2026-04-13T05:09:06Z",
       "created_at": "2014-08-25T22:28:59Z",
       "language": "JavaScript",
       "stars": 268,
@@ -447,7 +447,7 @@
       "pushed_at": "2026-04-10T23:51:31Z",
       "created_at": "2017-04-26T00:28:26Z",
       "language": "Python",
-      "stars": 2664,
+      "stars": 2665,
       "release": null
     },
     {
@@ -477,8 +477,8 @@
       "fork": false,
       "private": false,
       "open_issues": 43,
-      "open_prs": 5,
-      "pushed_at": "2026-04-11T05:30:31Z",
+      "open_prs": 6,
+      "pushed_at": "2026-04-13T05:10:17Z",
       "created_at": "2017-05-22T19:17:42Z",
       "language": "Python",
       "stars": 82,
@@ -537,7 +537,7 @@
       "fork": false,
       "private": false,
       "open_issues": 149,
-      "open_prs": 2,
+      "open_prs": 3,
       "pushed_at": "2026-03-24T16:52:38Z",
       "created_at": "2017-12-07T20:10:06Z",
       "language": "Jupyter Notebook",
@@ -1188,8 +1188,8 @@
       "fork": false,
       "private": false,
       "open_issues": 0,
-      "open_prs": 2,
-      "pushed_at": "2026-04-09T12:53:41Z",
+      "open_prs": 3,
+      "pushed_at": "2026-04-13T05:57:26Z",
       "created_at": "2024-11-24T23:17:24Z",
       "language": "Dockerfile",
       "stars": 5,
@@ -1208,6 +1208,21 @@
       "created_at": "2026-02-26T21:31:24Z",
       "language": null,
       "stars": 4,
+      "release": null
+    },
+    {
+      "name": "jupyterhub-ghsa-m68r-v472-jgq9",
+      "url": "https://github.com/jupyterhub/jupyterhub-ghsa-m68r-v472-jgq9",
+      "description": null,
+      "archived": false,
+      "fork": false,
+      "private": true,
+      "open_issues": 0,
+      "open_prs": 1,
+      "pushed_at": "2026-04-13T03:34:17Z",
+      "created_at": "2026-04-13T03:15:19Z",
+      "language": null,
+      "stars": 0,
       "release": null
     }
   ]
