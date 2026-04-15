@@ -1,6 +1,6 @@
 {
   "org": "python",
-  "fetched_at": "2026-04-14T06:42:53.127Z",
+  "fetched_at": "2026-04-15T06:42:58.181Z",
   "repos": [
     {
       "name": "getpython3.com",
@@ -104,7 +104,7 @@
       "pushed_at": "2026-04-08T20:10:26Z",
       "created_at": "2012-10-08T16:00:15Z",
       "language": "Python",
-      "stars": 1627,
+      "stars": 1628,
       "release": null
     },
     {
@@ -114,12 +114,12 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 2676,
-      "open_prs": 453,
-      "pushed_at": "2026-04-14T01:06:18Z",
+      "open_issues": 2678,
+      "open_prs": 456,
+      "pushed_at": "2026-04-15T00:51:40Z",
       "created_at": "2012-12-07T13:30:23Z",
       "language": "Python",
-      "stars": 20362,
+      "stars": 20368,
       "release": null
     },
     {
@@ -134,7 +134,7 @@
       "pushed_at": "2014-04-22T15:28:51Z",
       "created_at": "2013-01-11T21:29:18Z",
       "language": "Python",
-      "stars": 226,
+      "stars": 227,
       "release": {
         "tag": "0.3",
         "published_at": "2013-09-05T17:24:40Z",
@@ -164,11 +164,11 @@
       "fork": false,
       "private": false,
       "open_issues": 20,
-      "open_prs": 38,
-      "pushed_at": "2026-04-13T22:01:09Z",
+      "open_prs": 40,
+      "pushed_at": "2026-04-15T02:59:52Z",
       "created_at": "2013-10-08T13:27:12Z",
       "language": "reStructuredText",
-      "stars": 4904,
+      "stars": 4906,
       "release": null
     },
     {
@@ -224,11 +224,11 @@
       "fork": false,
       "private": false,
       "open_issues": 201,
-      "open_prs": 21,
-      "pushed_at": "2026-04-10T20:57:45Z",
+      "open_prs": 20,
+      "pushed_at": "2026-04-14T18:11:50Z",
       "created_at": "2014-09-29T16:54:42Z",
       "language": "Python",
-      "stars": 1747,
+      "stars": 1748,
       "release": null
     },
     {
@@ -258,7 +258,7 @@
       "pushed_at": "2026-04-14T01:37:05Z",
       "created_at": "2015-03-05T04:51:28Z",
       "language": "Python",
-      "stars": 5042,
+      "stars": 5043,
       "release": null
     },
     {
@@ -438,7 +438,7 @@
       "pushed_at": "2026-04-07T17:34:33Z",
       "created_at": "2016-08-17T23:43:22Z",
       "language": "Python",
-      "stars": 1009,
+      "stars": 1010,
       "release": {
         "tag": "1.14.0",
         "published_at": "2026-02-07T12:10:51Z",
@@ -453,7 +453,7 @@
       "fork": false,
       "private": false,
       "open_issues": 14,
-      "open_prs": 5,
+      "open_prs": 6,
       "pushed_at": "2026-04-14T03:14:22Z",
       "created_at": "2016-09-05T18:25:11Z",
       "language": "Python",
@@ -501,12 +501,12 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 7186,
-      "open_prs": 2149,
-      "pushed_at": "2026-04-14T04:51:05Z",
+      "open_issues": 7184,
+      "open_prs": 2145,
+      "pushed_at": "2026-04-15T04:29:41Z",
       "created_at": "2017-02-10T19:23:51Z",
       "language": "Python",
-      "stars": 72323,
+      "stars": 72332,
       "release": null
     },
     {
@@ -596,11 +596,11 @@
       "fork": false,
       "private": false,
       "open_issues": 10,
-      "open_prs": 4,
-      "pushed_at": "2026-04-07T07:23:05Z",
+      "open_prs": 3,
+      "pushed_at": "2026-04-14T13:13:33Z",
       "created_at": "2017-06-04T21:14:32Z",
       "language": "CSS",
-      "stars": 86,
+      "stars": 87,
       "release": {
         "tag": "2026.3",
         "published_at": "2026-03-12T13:46:23Z",
@@ -631,10 +631,10 @@
       "private": false,
       "open_issues": 3,
       "open_prs": 0,
-      "pushed_at": "2026-04-14T00:03:43Z",
+      "pushed_at": "2026-04-15T00:01:39Z",
       "created_at": "2017-06-11T13:33:21Z",
       "language": "Makefile",
-      "stars": 70,
+      "stars": 72,
       "release": null
     },
     {
@@ -664,7 +664,7 @@
       "pushed_at": "2026-04-13T23:33:23Z",
       "created_at": "2017-06-22T21:33:42Z",
       "language": "Python",
-      "stars": 156,
+      "stars": 157,
       "release": null
     },
     {
@@ -769,7 +769,7 @@
       "pushed_at": "2026-04-12T00:56:15Z",
       "created_at": "2018-01-12T13:07:00Z",
       "language": null,
-      "stars": 76,
+      "stars": 77,
       "release": null
     },
     {
@@ -811,7 +811,7 @@
       "private": false,
       "open_issues": 37,
       "open_prs": 12,
-      "pushed_at": "2026-04-14T03:04:34Z",
+      "pushed_at": "2026-04-15T00:37:13Z",
       "created_at": "2018-06-24T06:19:52Z",
       "language": "Python",
       "stars": 278,
@@ -841,7 +841,7 @@
       "private": false,
       "open_issues": 5,
       "open_prs": 3,
-      "pushed_at": "2026-04-13T16:20:09Z",
+      "pushed_at": "2026-04-14T15:40:21Z",
       "created_at": "2018-10-22T13:03:51Z",
       "language": null,
       "stars": 457,
@@ -1160,7 +1160,7 @@
       "pushed_at": "2026-04-08T15:38:45Z",
       "created_at": "2021-04-16T18:19:40Z",
       "language": "Makefile",
-      "stars": 52,
+      "stars": 53,
       "release": null
     },
     {
@@ -1343,12 +1343,12 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 21,
-      "open_prs": 5,
-      "pushed_at": "2026-04-13T22:14:28Z",
+      "open_issues": 20,
+      "open_prs": 4,
+      "pushed_at": "2026-04-14T20:40:11Z",
       "created_at": "2025-04-28T16:59:04Z",
       "language": "Python",
-      "stars": 266,
+      "stars": 267,
       "release": {
         "tag": "26.1",
         "published_at": "2026-03-31T22:38:23Z",
@@ -1427,7 +1427,7 @@
       "pushed_at": "2026-04-08T09:25:21Z",
       "created_at": "2026-02-13T05:49:21Z",
       "language": "Astro",
-      "stars": 27,
+      "stars": 29,
       "release": null
     },
     {

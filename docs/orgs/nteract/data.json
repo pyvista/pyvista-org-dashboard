@@ -1,6 +1,6 @@
 {
   "org": "nteract",
-  "fetched_at": "2026-04-14T06:42:44.100Z",
+  "fetched_at": "2026-04-15T06:42:50.228Z",
   "repos": [
     {
       "name": "old-sidecar",
@@ -680,7 +680,7 @@
       "private": false,
       "open_issues": 1,
       "open_prs": 2,
-      "pushed_at": "2026-04-14T00:02:37Z",
+      "pushed_at": "2026-04-14T21:23:09Z",
       "created_at": "2016-09-25T21:08:32Z",
       "language": "TypeScript",
       "stars": 46,
@@ -837,7 +837,7 @@
       "pushed_at": "2026-04-13T11:10:40Z",
       "created_at": "2017-03-16T17:46:24Z",
       "language": "TypeScript",
-      "stars": 2644,
+      "stars": 2645,
       "release": {
         "tag": "v3.2.2",
         "published_at": "2026-03-31T04:34:12Z",
@@ -890,7 +890,7 @@
       "pushed_at": "2026-04-06T21:32:32Z",
       "created_at": "2017-07-06T17:17:53Z",
       "language": "Python",
-      "stars": 6429,
+      "stars": 6430,
       "release": null
     },
     {
@@ -1693,11 +1693,11 @@
       "fork": false,
       "private": false,
       "open_issues": 24,
-      "open_prs": 1,
-      "pushed_at": "2026-04-14T05:16:34Z",
+      "open_prs": 8,
+      "pushed_at": "2026-04-15T06:39:28Z",
       "created_at": "2026-02-11T18:18:05Z",
       "language": "Rust",
-      "stars": 66,
+      "stars": 65,
       "release": {
         "tag": "v2.1.3-stable.202604090105",
         "published_at": "2026-04-09T01:28:07Z",
@@ -1705,8 +1705,8 @@
       }
     },
     {
-      "name": "nteract",
-      "url": "https://github.com/nteract/nteract",
+      "name": "nteract-redirect",
+      "url": "https://github.com/nteract/nteract-redirect",
       "description": "Don't look here, look there.",
       "archived": false,
       "fork": false,
@@ -1720,7 +1720,7 @@
       "release": {
         "tag": "v1.9.1",
         "published_at": "2026-03-11T05:43:57Z",
-        "url": "https://github.com/nteract/nteract/releases/tag/v1.9.1"
+        "url": "https://github.com/nteract/nteract-redirect/releases/tag/v1.9.1"
       }
     },
     {
@@ -1792,7 +1792,7 @@
       "private": true,
       "open_issues": 0,
       "open_prs": 0,
-      "pushed_at": "2026-04-12T22:00:05Z",
+      "pushed_at": "2026-04-15T01:32:15Z",
       "created_at": "2026-04-08T15:55:51Z",
       "language": "Jupyter Notebook",
       "stars": 0,
