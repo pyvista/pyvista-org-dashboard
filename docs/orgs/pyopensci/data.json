@@ -1,6 +1,6 @@
 {
   "org": "pyopensci",
-  "fetched_at": "2026-04-15T06:42:41.398Z",
+  "fetched_at": "2026-04-15T17:58:57.764Z",
   "repos": [
     {
       "name": "pyApiToolkit",
@@ -130,9 +130,9 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 66,
-      "open_prs": 9,
-      "pushed_at": "2026-04-13T23:11:21Z",
+      "open_issues": 67,
+      "open_prs": 10,
+      "pushed_at": "2026-04-15T17:26:01Z",
       "created_at": "2022-10-24T15:06:05Z",
       "language": "Python",
       "stars": 146,
@@ -183,9 +183,9 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 13,
-      "open_prs": 4,
-      "pushed_at": "2026-04-15T00:44:13Z",
+      "open_issues": 12,
+      "open_prs": 2,
+      "pushed_at": "2026-04-15T17:54:49Z",
       "created_at": "2023-02-28T23:43:21Z",
       "language": "Python",
       "stars": 10,
@@ -459,7 +459,7 @@
       "pushed_at": "2026-04-07T15:28:01Z",
       "created_at": "2025-06-24T22:42:42Z",
       "language": null,
-      "stars": 5,
+      "stars": 6,
       "release": null
     },
     {
