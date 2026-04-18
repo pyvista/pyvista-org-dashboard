@@ -1,6 +1,6 @@
 {
   "org": "jupyterhub",
-  "fetched_at": "2026-04-17T06:43:46.665Z",
+  "fetched_at": "2026-04-18T06:31:26.240Z",
   "repos": [
     {
       "name": "jupyterhub",
@@ -14,7 +14,7 @@
       "pushed_at": "2026-04-15T18:49:57Z",
       "created_at": "2014-06-12T23:22:10Z",
       "language": "Python",
-      "stars": 8265,
+      "stars": 8266,
       "release": null
     },
     {
@@ -307,7 +307,7 @@
       "fork": false,
       "private": false,
       "open_issues": 78,
-      "open_prs": 18,
+      "open_prs": 19,
       "pushed_at": "2026-04-13T15:28:18Z",
       "created_at": "2016-10-18T22:02:06Z",
       "language": "Python",
@@ -375,7 +375,7 @@
       "fork": false,
       "private": false,
       "open_issues": 34,
-      "open_prs": 3,
+      "open_prs": 4,
       "pushed_at": "2026-02-15T22:26:36Z",
       "created_at": "2016-12-09T06:26:18Z",
       "language": "Python",
@@ -447,7 +447,7 @@
       "pushed_at": "2026-04-16T22:53:56Z",
       "created_at": "2017-04-26T00:28:26Z",
       "language": "Python",
-      "stars": 2665,
+      "stars": 2666,
       "release": null
     },
     {
@@ -458,11 +458,11 @@
       "fork": false,
       "private": false,
       "open_issues": 178,
-      "open_prs": 14,
-      "pushed_at": "2026-04-06T21:38:48Z",
+      "open_prs": 22,
+      "pushed_at": "2026-04-17T16:24:08Z",
       "created_at": "2017-05-09T08:36:30Z",
       "language": "Python",
-      "stars": 1717,
+      "stars": 1718,
       "release": {
         "tag": "2025.12.0",
         "published_at": "2025-12-10T12:03:37Z",
@@ -477,8 +477,8 @@
       "fork": false,
       "private": false,
       "open_issues": 42,
-      "open_prs": 3,
-      "pushed_at": "2026-04-13T21:22:59Z",
+      "open_prs": 4,
+      "pushed_at": "2026-04-18T05:33:01Z",
       "created_at": "2017-05-22T19:17:42Z",
       "language": "Python",
       "stars": 83,
@@ -1219,7 +1219,7 @@
       "private": true,
       "open_issues": 0,
       "open_prs": 1,
-      "pushed_at": "2026-04-13T03:34:17Z",
+      "pushed_at": "2026-04-17T21:05:29Z",
       "created_at": "2026-04-13T03:15:19Z",
       "language": null,
       "stars": 0,
