@@ -1,6 +1,6 @@
 {
   "org": "jupyterhub",
-  "fetched_at": "2026-04-18T06:31:26.240Z",
+  "fetched_at": "2026-04-19T06:39:39.508Z",
   "repos": [
     {
       "name": "jupyterhub",
@@ -14,7 +14,7 @@
       "pushed_at": "2026-04-15T18:49:57Z",
       "created_at": "2014-06-12T23:22:10Z",
       "language": "Python",
-      "stars": 8266,
+      "stars": 8267,
       "release": null
     },
     {
@@ -29,7 +29,7 @@
       "pushed_at": "2026-04-15T11:09:40Z",
       "created_at": "2014-08-25T22:28:59Z",
       "language": "JavaScript",
-      "stars": 269,
+      "stars": 267,
       "release": null
     },
     {
@@ -413,7 +413,7 @@
       "pushed_at": "2026-04-16T22:47:49Z",
       "created_at": "2017-04-10T19:25:35Z",
       "language": "Python",
-      "stars": 1705,
+      "stars": 1706,
       "release": {
         "tag": "4.3.3",
         "published_at": "2026-03-26T21:42:40Z",
@@ -462,7 +462,7 @@
       "pushed_at": "2026-04-17T16:24:08Z",
       "created_at": "2017-05-09T08:36:30Z",
       "language": "Python",
-      "stars": 1718,
+      "stars": 1719,
       "release": {
         "tag": "2025.12.0",
         "published_at": "2025-12-10T12:03:37Z",
