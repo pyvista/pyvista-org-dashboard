@@ -1,6 +1,6 @@
 {
   "org": "jupyterhub",
-  "fetched_at": "2026-04-21T06:44:04.794Z",
+  "fetched_at": "2026-04-22T06:43:34.103Z",
   "repos": [
     {
       "name": "jupyterhub",
@@ -14,7 +14,7 @@
       "pushed_at": "2026-04-15T18:49:57Z",
       "created_at": "2014-06-12T23:22:10Z",
       "language": "Python",
-      "stars": 8268,
+      "stars": 8267,
       "release": null
     },
     {
@@ -379,7 +379,7 @@
       "pushed_at": "2026-02-15T22:26:36Z",
       "created_at": "2016-12-09T06:26:18Z",
       "language": "Python",
-      "stars": 126,
+      "stars": 127,
       "release": {
         "tag": "v2.3.0",
         "published_at": "2025-01-14T13:53:05Z",
@@ -413,7 +413,7 @@
       "pushed_at": "2026-04-16T22:47:49Z",
       "created_at": "2017-04-10T19:25:35Z",
       "language": "Python",
-      "stars": 1706,
+      "stars": 1705,
       "release": {
         "tag": "4.3.3",
         "published_at": "2026-03-26T21:42:40Z",
@@ -458,11 +458,11 @@
       "fork": false,
       "private": false,
       "open_issues": 178,
-      "open_prs": 22,
-      "pushed_at": "2026-04-17T16:24:08Z",
+      "open_prs": 19,
+      "pushed_at": "2026-04-21T08:19:20Z",
       "created_at": "2017-05-09T08:36:30Z",
       "language": "Python",
-      "stars": 1719,
+      "stars": 1721,
       "release": {
         "tag": "2025.12.0",
         "published_at": "2025-12-10T12:03:37Z",
@@ -478,7 +478,7 @@
       "private": false,
       "open_issues": 42,
       "open_prs": 6,
-      "pushed_at": "2026-04-21T05:43:27Z",
+      "pushed_at": "2026-04-22T05:43:24Z",
       "created_at": "2017-05-22T19:17:42Z",
       "language": "Python",
       "stars": 83,
@@ -649,7 +649,7 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 137,
+      "open_issues": 136,
       "open_prs": 7,
       "pushed_at": "2026-04-06T21:38:53Z",
       "created_at": "2018-06-15T22:37:12Z",
@@ -803,9 +803,9 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 3,
+      "open_issues": 1,
       "open_prs": 0,
-      "pushed_at": "2026-04-20T17:22:42Z",
+      "pushed_at": "2026-04-21T15:07:10Z",
       "created_at": "2019-04-17T18:01:36Z",
       "language": "Python",
       "stars": 12,
