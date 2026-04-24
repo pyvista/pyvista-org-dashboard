@@ -1,6 +1,6 @@
 {
   "org": "jupyterhub",
-  "fetched_at": "2026-04-23T06:44:35.321Z",
+  "fetched_at": "2026-04-24T06:45:12.348Z",
   "repos": [
     {
       "name": "jupyterhub",
@@ -14,7 +14,7 @@
       "pushed_at": "2026-04-15T18:49:57Z",
       "created_at": "2014-06-12T23:22:10Z",
       "language": "Python",
-      "stars": 8267,
+      "stars": 8270,
       "release": null
     },
     {
@@ -29,7 +29,7 @@
       "pushed_at": "2026-04-15T11:09:40Z",
       "created_at": "2014-08-25T22:28:59Z",
       "language": "JavaScript",
-      "stars": 267,
+      "stars": 268,
       "release": null
     },
     {
@@ -408,7 +408,7 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 117,
+      "open_issues": 118,
       "open_prs": 18,
       "pushed_at": "2026-04-23T05:44:35Z",
       "created_at": "2017-04-10T19:25:35Z",
@@ -457,16 +457,16 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 179,
+      "open_issues": 178,
       "open_prs": 13,
-      "pushed_at": "2026-04-22T18:34:53Z",
+      "pushed_at": "2026-04-23T14:56:16Z",
       "created_at": "2017-05-09T08:36:30Z",
       "language": "Python",
       "stars": 1720,
       "release": {
-        "tag": "2025.12.0",
-        "published_at": "2025-12-10T12:03:37Z",
-        "url": "https://github.com/jupyterhub/repo2docker/releases/tag/2025.12.0"
+        "tag": "2026.04.0",
+        "published_at": "2026-04-23T14:56:16Z",
+        "url": "https://github.com/jupyterhub/repo2docker/releases/tag/2026.04.0"
       }
     },
     {
@@ -1169,8 +1169,8 @@
       "fork": false,
       "private": false,
       "open_issues": 0,
-      "open_prs": 5,
-      "pushed_at": "2026-04-23T05:55:58Z",
+      "open_prs": 3,
+      "pushed_at": "2026-04-23T19:46:14Z",
       "created_at": "2024-11-21T00:06:15Z",
       "language": "JavaScript",
       "stars": 0,
