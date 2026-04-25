@@ -1,6 +1,6 @@
 {
   "org": "nteract",
-  "fetched_at": "2026-04-24T06:45:20.125Z",
+  "fetched_at": "2026-04-25T06:36:30.246Z",
   "repos": [
     {
       "name": "old-sidecar",
@@ -680,7 +680,7 @@
       "private": false,
       "open_issues": 0,
       "open_prs": 0,
-      "pushed_at": "2026-04-23T22:00:42Z",
+      "pushed_at": "2026-04-24T23:02:57Z",
       "created_at": "2016-09-25T21:08:32Z",
       "language": "TypeScript",
       "stars": 45,
@@ -834,7 +834,7 @@
       "private": false,
       "open_issues": 1,
       "open_prs": 1,
-      "pushed_at": "2026-04-24T04:37:33Z",
+      "pushed_at": "2026-04-25T06:07:54Z",
       "created_at": "2017-03-16T17:46:24Z",
       "language": "TypeScript",
       "stars": 2652,
@@ -890,7 +890,7 @@
       "pushed_at": "2026-04-06T21:32:32Z",
       "created_at": "2017-07-06T17:17:53Z",
       "language": "Python",
-      "stars": 6437,
+      "stars": 6438,
       "release": null
     },
     {
@@ -1692,16 +1692,16 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 30,
-      "open_prs": 0,
-      "pushed_at": "2026-04-24T06:41:18Z",
+      "open_issues": 34,
+      "open_prs": 2,
+      "pushed_at": "2026-04-25T06:33:08Z",
       "created_at": "2026-02-11T18:18:05Z",
       "language": "Rust",
-      "stars": 71,
+      "stars": 72,
       "release": {
-        "tag": "v2.2.0-stable.202604151939",
-        "published_at": "2026-04-15T20:01:05Z",
-        "url": "https://github.com/nteract/desktop/releases/tag/v2.2.0-stable.202604151939"
+        "tag": "v2.3.1-stable.202604250101",
+        "published_at": "2026-04-25T01:27:34Z",
+        "url": "https://github.com/nteract/desktop/releases/tag/v2.3.1-stable.202604250101"
       }
     },
     {
@@ -1792,7 +1792,7 @@
       "private": true,
       "open_issues": 0,
       "open_prs": 1,
-      "pushed_at": "2026-04-23T22:55:10Z",
+      "pushed_at": "2026-04-24T19:05:21Z",
       "created_at": "2026-04-08T15:55:51Z",
       "language": "Python",
       "stars": 0,
@@ -1807,7 +1807,7 @@
       "private": false,
       "open_issues": 0,
       "open_prs": 0,
-      "pushed_at": "2026-04-24T03:37:14Z",
+      "pushed_at": "2026-04-25T02:58:32Z",
       "created_at": "2026-04-21T23:36:44Z",
       "language": "Shell",
       "stars": 0,
@@ -1837,9 +1837,9 @@
       "private": true,
       "open_issues": 0,
       "open_prs": 0,
-      "pushed_at": "2026-04-23T15:45:14Z",
+      "pushed_at": "2026-04-25T01:47:56Z",
       "created_at": "2026-04-22T03:42:05Z",
-      "language": "TypeScript",
+      "language": "Jupyter Notebook",
       "stars": 0,
       "release": null
     }
