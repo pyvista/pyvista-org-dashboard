@@ -1,6 +1,6 @@
 {
   "org": "jupyterhub",
-  "fetched_at": "2026-04-25T06:36:21.865Z",
+  "fetched_at": "2026-04-26T06:43:23.893Z",
   "repos": [
     {
       "name": "jupyterhub",
@@ -462,7 +462,7 @@
       "pushed_at": "2026-04-23T14:56:16Z",
       "created_at": "2017-05-09T08:36:30Z",
       "language": "Python",
-      "stars": 1720,
+      "stars": 1721,
       "release": {
         "tag": "2026.04.0",
         "published_at": "2026-04-23T14:56:16Z",
