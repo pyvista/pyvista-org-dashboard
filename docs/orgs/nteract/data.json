@@ -1,6 +1,6 @@
 {
   "org": "nteract",
-  "fetched_at": "2026-04-26T06:43:29.900Z",
+  "fetched_at": "2026-04-27T07:00:24.574Z",
   "repos": [
     {
       "name": "old-sidecar",
@@ -834,7 +834,7 @@
       "private": false,
       "open_issues": 1,
       "open_prs": 1,
-      "pushed_at": "2026-04-26T04:33:03Z",
+      "pushed_at": "2026-04-27T05:21:30Z",
       "created_at": "2017-03-16T17:46:24Z",
       "language": "TypeScript",
       "stars": 2652,
@@ -1692,16 +1692,16 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 34,
-      "open_prs": 0,
-      "pushed_at": "2026-04-26T06:29:30Z",
+      "open_issues": 33,
+      "open_prs": 4,
+      "pushed_at": "2026-04-27T06:41:15Z",
       "created_at": "2026-02-11T18:18:05Z",
       "language": "Rust",
-      "stars": 72,
+      "stars": 79,
       "release": {
-        "tag": "v2.3.1-stable.202604250101",
-        "published_at": "2026-04-25T01:27:34Z",
-        "url": "https://github.com/nteract/desktop/releases/tag/v2.3.1-stable.202604250101"
+        "tag": "v2.3.4-stable.202604261517",
+        "published_at": "2026-04-26T15:35:50Z",
+        "url": "https://github.com/nteract/desktop/releases/tag/v2.3.4-stable.202604261517"
       }
     },
     {
@@ -1807,7 +1807,7 @@
       "private": false,
       "open_issues": 0,
       "open_prs": 0,
-      "pushed_at": "2026-04-26T05:50:35Z",
+      "pushed_at": "2026-04-26T15:35:12Z",
       "created_at": "2026-04-21T23:36:44Z",
       "language": "Shell",
       "stars": 0,
@@ -1837,7 +1837,7 @@
       "private": true,
       "open_issues": 0,
       "open_prs": 0,
-      "pushed_at": "2026-04-25T01:47:56Z",
+      "pushed_at": "2026-04-26T19:34:40Z",
       "created_at": "2026-04-22T03:42:05Z",
       "language": "Jupyter Notebook",
       "stars": 0,
