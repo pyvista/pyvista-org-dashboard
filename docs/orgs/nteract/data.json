@@ -1,6 +1,6 @@
 {
   "org": "nteract",
-  "fetched_at": "2026-05-01T07:00:44.136Z",
+  "fetched_at": "2026-05-02T06:45:05.019Z",
   "repos": [
     {
       "name": "old-sidecar",
@@ -832,12 +832,12 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 1,
-      "open_prs": 1,
-      "pushed_at": "2026-05-01T04:38:51Z",
+      "open_issues": 0,
+      "open_prs": 0,
+      "pushed_at": "2026-05-02T04:27:33Z",
       "created_at": "2017-03-16T17:46:24Z",
       "language": "TypeScript",
-      "stars": 2654,
+      "stars": 2656,
       "release": {
         "tag": "v3.4.2",
         "published_at": "2026-04-28T23:54:14Z",
@@ -890,7 +890,7 @@
       "pushed_at": "2026-04-06T21:32:32Z",
       "created_at": "2017-07-06T17:17:53Z",
       "language": "Python",
-      "stars": 6440,
+      "stars": 6439,
       "release": null
     },
     {
@@ -1692,16 +1692,16 @@
       "archived": false,
       "fork": false,
       "private": false,
-      "open_issues": 31,
-      "open_prs": 2,
-      "pushed_at": "2026-05-01T05:49:44Z",
+      "open_issues": 27,
+      "open_prs": 1,
+      "pushed_at": "2026-05-02T06:42:06Z",
       "created_at": "2026-02-11T18:18:05Z",
       "language": "Rust",
-      "stars": 100,
+      "stars": 101,
       "release": {
-        "tag": "v2.3.4-stable.202604261517",
-        "published_at": "2026-04-26T15:35:50Z",
-        "url": "https://github.com/nteract/desktop/releases/tag/v2.3.4-stable.202604261517"
+        "tag": "v2.4.0-stable.202605020205",
+        "published_at": "2026-05-02T02:18:32Z",
+        "url": "https://github.com/nteract/desktop/releases/tag/v2.4.0-stable.202605020205"
       }
     },
     {
@@ -1792,7 +1792,7 @@
       "private": true,
       "open_issues": 0,
       "open_prs": 1,
-      "pushed_at": "2026-04-30T19:38:29Z",
+      "pushed_at": "2026-05-01T23:08:40Z",
       "created_at": "2026-04-08T15:55:51Z",
       "language": "Python",
       "stars": 0,
@@ -1807,7 +1807,7 @@
       "private": false,
       "open_issues": 0,
       "open_prs": 0,
-      "pushed_at": "2026-05-01T05:37:42Z",
+      "pushed_at": "2026-05-02T06:38:23Z",
       "created_at": "2026-04-21T23:36:44Z",
       "language": "Shell",
       "stars": 0,
