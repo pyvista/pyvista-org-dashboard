@@ -1,39 +1,57 @@
 {
   "tier_labels": {
     "0": "Critical infrastructure",
-    "1": "Core ecosystem",
-    "2": "Companion",
-    "3": "Archived"
+    "1": "Core packages",
+    "2": "Ecosystem extensions",
+    "3": "Companion",
+    "4": "Archived"
   },
   "tiers": {
     "0": ["pyvista", "admin", "website", "setup-headless-display-action", "arc-runners", "data"],
-    "1": [
-      "pytest-pyvista",
-      "pyvistaqt",
-      "pyvista-xarray",
-      "pymeshfix",
-      "pyacvd",
-      "tetgen",
-      "pyiges",
-      "fast-simplification",
-      "omfvista",
-      "scikit-gmsh",
-      "pytetwild",
+    "1": ["pyvistaqt", "pytest-pyvista", "pyvista-docs-dynamic"],
+    "2": [
+      "pyvista-manifold",
       "pyvista-stl",
       "pyvista-miniply",
-      "pyvista-manifold",
       "pyvista-trimesh",
-      "trame-pyvista",
-      "vtk-xref",
+      "pyvista-xarray",
+      "pyvista-zstd",
+      "tetgen",
+      "pymeshfix",
+      "pyacvd",
+      "pytetwild",
+      "fast-simplification",
+      "pyiges",
+      "scikit-gmsh",
+      "omfvista",
       "vtkbool",
       "npt-promote",
-      "pyvista-zstd",
+      "trame-pyvista",
+      "vtk-xref",
       "pyvista-doc-translations",
       "pyvista-tutorial",
-      "pyvista-tutorial-translations",
-      "pyvista-docs-dynamic"
+      "pyvista-tutorial-translations"
     ],
-    "2": [".github"]
+    "3": [
+      ".github",
+      "awesome-pyvista",
+      "bag-o-elements",
+      "panel-pyvista",
+      "pyvista-ai",
+      "pyvista-benchmarks",
+      "pyvista-doc-example",
+      "pyvista-examples",
+      "pyvista-fastapi-webapp",
+      "pyvista-gui",
+      "pyvista-itk",
+      "pyvista-mcp-server",
+      "pyvista-media",
+      "pyvista-org-dashboard",
+      "pyvista-reality",
+      "pyvista-tui",
+      "pyvistaqt-exe",
+      "streamlit-stlviewer"
+    ]
   },
   "watched_workflows": {
     "pyvista": [

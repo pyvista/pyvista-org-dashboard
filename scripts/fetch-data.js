@@ -60,12 +60,13 @@ const ALERTABLE_CONCLUSIONS = new Set([
 // ───────────────────────────── pure functions (exported) ─────────────────────
 
 export function classifyTier(repo, config) {
-  if (repo.archived) return 3;
+  if (repo.archived) return 4;
   const tiers = config?.tiers || {};
   if ((tiers["0"] || []).includes(repo.name)) return 0;
   if ((tiers["1"] || []).includes(repo.name)) return 1;
   if ((tiers["2"] || []).includes(repo.name)) return 2;
-  return 1;
+  if ((tiers["3"] || []).includes(repo.name)) return 3;
+  return 3;
 }
 
 export function worstConclusion(runs) {
@@ -404,19 +405,21 @@ export async function fetchOrg(octokit, org, opts) {
   const labels = config?.tier_labels || {};
   const tiers = {
     0: { label: labels["0"] || "Critical infrastructure", repos: [] },
-    1: { label: labels["1"] || "Core ecosystem", repos: [] },
-    2: { label: labels["2"] || "Companion", repos: [] },
-    3: { label: labels["3"] || "Archived", repos: [] },
+    1: { label: labels["1"] || "Core packages", repos: [] },
+    2: { label: labels["2"] || "Ecosystem extensions", repos: [] },
+    3: { label: labels["3"] || "Companion", repos: [] },
+    4: { label: labels["4"] || "Archived", repos: [] },
   };
   for (const r of enriched) {
     tiers[r.tier].repos.push(r.name);
   }
 
-  // Repos defaulted to Tier 1 because they were not listed in any tier and not archived.
+  // Repos defaulted to Tier 3 because they were not listed in any tier and not archived.
   const listed = new Set([
     ...(config?.tiers?.["0"] || []),
     ...(config?.tiers?.["1"] || []),
     ...(config?.tiers?.["2"] || []),
+    ...(config?.tiers?.["3"] || []),
   ]);
   const unclassified_repos = enriched
     .filter((r) => !r.archived && !listed.has(r.name))
@@ -456,11 +459,18 @@ export function collectFetchErrors(repos) {
   return errors;
 }
 
-async function writeOrgData(data) {
+async function writeOrgData(data, { primary } = { primary: false }) {
+  const json = JSON.stringify(data, null, 2);
+  if (primary) {
+    const outFile = join(ROOT, "docs", "data.json");
+    await writeFile(outFile, json);
+    console.log(`[${data.org}] Wrote ${data.repos.length} repos -> ${outFile} (primary)`);
+    return;
+  }
   const outDir = join(ROOT, "docs", "orgs", data.org);
   const outFile = join(outDir, "data.json");
   await mkdir(outDir, { recursive: true });
-  await writeFile(outFile, JSON.stringify(data, null, 2));
+  await writeFile(outFile, json);
   console.log(`[${data.org}] Wrote ${data.repos.length} repos -> ${outFile}`);
 }
 
@@ -485,10 +495,11 @@ async function main() {
   console.log(`Fetching ${orgs.length} org(s): ${orgs.join(", ")}`);
   const octokit = makeOctokit(token);
 
-  for (const org of orgs) {
+  for (let i = 0; i < orgs.length; i++) {
+    const org = orgs[i];
     try {
       const data = await fetchOrg(octokit, org);
-      await writeOrgData(data);
+      await writeOrgData(data, { primary: i === 0 });
     } catch (e) {
       console.error(`[${org}] ERROR: ${e.message}`);
     }

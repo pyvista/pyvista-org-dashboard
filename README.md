@@ -1,6 +1,6 @@
 # PyVista Org Command Dashboard
 
-A static dashboard for the [PyVista GitHub organization](https://github.com/pyvista). It is hosted on GitHub Pages, refreshed daily by a GitHub Actions workflow, and focused on the pyvista org with critical-CI precedence and a four-tier repo classification so that infrastructure repos are surfaced first and inactive ones stay out of the way.
+A static dashboard for the [PyVista GitHub organization](https://github.com/pyvista). It is hosted on GitHub Pages at [dashboard.pyvista.org](https://dashboard.pyvista.org/), refreshed daily by a GitHub Actions workflow, and focused on the pyvista org with critical-CI precedence and a five-tier repo classification so that infrastructure repos are surfaced first and inactive ones stay out of the way.
 
 ## How it works
 
@@ -11,15 +11,15 @@ GitHub Actions (cron: daily)
         └── exports GH_TOKEN for the next step
               └── scripts/fetch-data.js
                     ├── lists pyvista repos
-                    ├── classifies each repo into Tier 0/1/2/3
+                    ├── classifies each repo into Tier 0/1/2/3/4
                     │   from config/orgs/pyvista.json
                     ├── for Tier 0 repos: fetches latest run of each
                     │   watched workflow on the default branch
                     ├── builds critical_alerts from Tier 0 failures
-                    └── writes docs/orgs/pyvista/data.json
+                    └── writes docs/data.json (primary org)
         └── actions/upload-pages-artifact + actions/deploy-pages
               └── GitHub Pages serves docs/ (source: GitHub Actions)
-                    └── docs/index.html redirects to orgs/pyvista/
+                    └── docs/index.html is the dashboard at site root
                           └── reads data.json, renders tiers + alerts
 
 The workflow does not commit or push anything. The `main` branch can have
@@ -75,7 +75,7 @@ In `pyvista/pyvista-org-dashboard` go to **Settings -> Secrets and variables -> 
 
 Do not pick "Deploy from a branch". The refresh workflow uploads `docs/` as a Pages artifact and deploys it via `actions/deploy-pages`, so there is no published branch.
 
-The site URL will be something like `https://pyvista.github.io/pyvista-org-dashboard/`. The root `docs/index.html` redirects to `orgs/pyvista/`.
+The custom-domain URL is `https://dashboard.pyvista.org/`. The fallback project URL is `https://pyvista.github.io/pyvista-org-dashboard/`. The dashboard renders directly at the site root.
 
 Because the workflow no longer pushes to git, you can enable strict branch protection on `main`. The App stays fully read-only.
 
@@ -85,7 +85,7 @@ The refresh workflow opens or updates an issue with the `dashboard-failure` labe
 
 ### 6. Run the workflow once
 
-**Actions -> Refresh dashboard data -> Run workflow**. This populates `docs/orgs/pyvista/data.json` inside the workflow runner and deploys the resulting `docs/` to GitHub Pages. The cron then runs daily.
+**Actions -> Refresh dashboard data -> Run workflow**. This populates `docs/data.json` inside the workflow runner and deploys the resulting `docs/` to GitHub Pages. The cron then runs daily.
 
 ## Local development
 
@@ -103,7 +103,7 @@ GH_TOKEN=<your-token-or-installation-token> node scripts/fetch-data.js
 python3 -m http.server 8080 --directory docs
 ```
 
-Then open <http://localhost:8080/>. The root page redirects to `orgs/pyvista/`.
+Then open <http://localhost:8080/>. The dashboard renders at the root.
 
 If you do not want to provide any token at all, you can point the fetcher at a public-data path with no auth, accepting the much lower unauthenticated rate limit (60 requests per hour). Iteration is slow but it works for spot checks.
 
@@ -115,14 +115,22 @@ For day-to-day operations, including how to read the alert pill, what to do when
 
 ## Repo prominence tiers
 
-Repos are sorted into four tiers, defined per-org in `config/orgs/<org>.json`. The shipped config lives at `config/orgs/pyvista.json`.
+Repos are sorted into five tiers, defined per-org in `config/orgs/<org>.json`. The shipped config lives at `config/orgs/pyvista.json`.
+
+| Tier | Label | Examples |
+|------|-------|----------|
+| 0 | Critical infrastructure | `pyvista`, `admin`, `website`, `setup-headless-display-action`, `arc-runners`, `data` |
+| 1 | Core packages | `pyvistaqt`, `pytest-pyvista`, `pyvista-docs-dynamic` |
+| 2 | Ecosystem extensions | `pyvista-stl`, `pyvista-xarray`, `tetgen`, `pymeshfix`, `pyacvd`, ... |
+| 3 | Companion | demos, examples, experimental tools, low-traffic helpers |
+| 4 | Archived | computed automatically from `archived: true` |
 
 - **Tier 0 - Critical infrastructure.** Always rendered first, always expanded, alerts on red CI. The PyVista Tier 0 set covers the org-wide repos and the runner / docs / data infrastructure.
 - **Tier 1 - Core ecosystem.** Active maintained packages. Rendered as a table.
 - **Tier 2 - Companion, demos, experimental.** Rendered collapsed.
 - **Tier 3 - Archived or inactive.** Computed automatically from `archived === true`, hidden by default.
 
-Repos not listed in the config default to Tier 1 if not archived and Tier 3 if archived. To promote or demote a repo, edit the relevant tier array in `config/orgs/pyvista.json`.
+Repos not listed in the config default to Tier 3 (Companion) if not archived and Tier 4 (Archived) if archived. To promote or demote a repo, edit the relevant tier array in `config/orgs/pyvista.json`. The dashboard surfaces a yellow warning when any non-archived repo is unclassified, so newly created org repos do not silently sink into Tier 3.
 
 ## Watched CI workflows
 
@@ -142,7 +150,7 @@ If a Tier 0 repo has no `watched_workflows` entry, the fetcher falls back to fet
 ## Customizing
 
 - **Refresh schedule.** Edit the `cron` field in `.github/workflows/refresh.yml`. The default is daily at 06:00 UTC.
-- **Adding more orgs.** Set the repo variable `GH_ORGS` to a comma-separated list, e.g. `pyvista,some-other-org`, and write `config/orgs/<org>.json` for each new org following the schema in `config/orgs/pyvista.json`. Each org gets its own page under `docs/orgs/<org>/`.
+- **Adding more orgs.** Set the repo variable `GH_ORGS` to a comma-separated list, e.g. `pyvista,some-other-org`, and write `config/orgs/<org>.json` for each new org following the schema in `config/orgs/pyvista.json`. The first org listed is the primary and renders at the site root. Additional orgs render under `/orgs/<org>/`.
 - **UI tweaks.** The frontend is plain HTML, CSS, and JS with no build step. The template lives at `docs/orgs/ORG_TEMPLATE/index.html`; per-org pages are produced by the workflow.
 
 ## Project structure
@@ -157,13 +165,18 @@ If a Tier 0 repo has no `watched_workflows` entry, the fetcher falls back to fet
 │   └── orgs/
 │       └── pyvista.json          # tier assignments + watched workflows
 ├── docs/                         # GitHub Pages root
-│   ├── index.html                # redirect to orgs/pyvista/
+│   ├── CNAME                     # custom domain pinning (dashboard.pyvista.org)
+│   ├── favicon.png               # tab icon
+│   ├── assets/
+│   │   └── pyvista-logo.svg      # header logo
+│   ├── index.html                # generated dashboard for the primary org (gitignored)
+│   ├── data.json                 # generated by the workflow (gitignored)
 │   └── orgs/
 │       ├── ORG_TEMPLATE/         # source-of-truth template
 │       │   └── index.html
-│       └── pyvista/
-│           ├── index.html        # generated from template
-│           └── data.json         # generated by the workflow
+│       └── <other-org>/          # secondary orgs (none today)
+│           ├── index.html        # generated from template (gitignored)
+│           └── data.json         # generated by the workflow (gitignored)
 ├── scripts/
 │   └── fetch-data.js             # Node fetcher, runs in Actions
 ├── tests/                        # node --test unit + smoke tests

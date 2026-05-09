@@ -2,9 +2,13 @@
 /**
  * generate-pages.js
  *
- * Copies the shared ORG_TEMPLATE/index.html into each org's folder.
- * Runs after fetch-data.js so every docs/orgs/<org>/ has both
- * data.json (from fetch) and index.html (from this script).
+ * Materializes the dashboard HTML from the shared ORG_TEMPLATE.
+ * The first org in GH_ORGS is the "primary" and is written to docs/index.html
+ * (served at the site root, e.g. dashboard.pyvista.org/). Additional orgs are
+ * written to docs/orgs/<org>/index.html (served at /orgs/<org>/).
+ *
+ * Pair with fetch-data.js, which uses the same primary/secondary split for
+ * data.json placement.
  *
  * Usage:
  *   GH_ORGS=pyvista,acme node scripts/generate-pages.js
@@ -39,12 +43,19 @@ if (!existsSync(templatePath)) {
 
 const template = readFileSync(templatePath, "utf8");
 
-for (const org of orgs) {
-  const orgDir = join(docsDir, "orgs", org);
-  const outFile = join(orgDir, "index.html");
-  mkdirSync(orgDir, { recursive: true });
-  writeFileSync(outFile, template);
-  console.log(`Generated: ${outFile}`);
+for (let i = 0; i < orgs.length; i++) {
+  const org = orgs[i];
+  if (i === 0) {
+    const outFile = join(docsDir, "index.html");
+    writeFileSync(outFile, template);
+    console.log(`Generated: ${outFile} (primary: ${org})`);
+  } else {
+    const orgDir = join(docsDir, "orgs", org);
+    const outFile = join(orgDir, "index.html");
+    mkdirSync(orgDir, { recursive: true });
+    writeFileSync(outFile, template);
+    console.log(`Generated: ${outFile}`);
+  }
 }
 
 console.log("Pages generated.");

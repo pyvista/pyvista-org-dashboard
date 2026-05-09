@@ -16,14 +16,15 @@ PyVista org policy disallows personal access tokens. The dashboard uses a dedica
 
 ## Repo tiering
 
-Repos are classified into four tiers via `config/orgs/<org>.json` (default config shipped for `pyvista`):
+Repos are classified into five tiers via `config/orgs/<org>.json` (default config shipped for `pyvista`):
 
-- **Tier 0 : Critical infrastructure.** Always rendered first, always expanded, alerts on red CI. PyVista members: `pyvista`, `admin`, `.github`, `setup-headless-display-action`, `arc-runners`, `data`, `pyvista-docs-dynamic`.
-- **Tier 1 : Core ecosystem.** Active maintained packages (`pytest-pyvista`, `pyvistaqt`, `pyvista-xarray`, `pymeshfix`, `pyacvd`, `tetgen`, `pyiges`, `fast-simplification`, `omfvista`, `scikit-gmsh`, `pytetwild`, `pyvista-stl`, `pyvista-miniply`, `pyvista-manifold`, `pyvista-trimesh`, `trame-pyvista`, `vtk-xref`, `vtkbool`, `npt-promote`, `pyvista-zstd`, `pyvista-doc-translations`, `pyvista-tutorial`, `pyvista-tutorial-translations`).
-- **Tier 2 : Companion / demos / experimental.** Rendered collapsed.
-- **Tier 3 : Archived / inactive.** Computed automatically (`archived === true`). Hidden by default.
+- **Tier 0: Critical infrastructure.** Always rendered first, always expanded, alerts on red CI. PyVista members: `pyvista`, `admin`, `website`, `setup-headless-display-action`, `arc-runners`, `data`.
+- **Tier 1: Core packages.** First-party packages that ship as part of PyVista core: `pyvistaqt`, `pytest-pyvista`, `pyvista-docs-dynamic`.
+- **Tier 2: Ecosystem extensions.** Wrappers, accessors, and integrations that extend PyVista (`pyvista-stl`, `pyvista-xarray`, `tetgen`, `pymeshfix`, `pyacvd`, `pytetwild`, `fast-simplification`, etc.).
+- **Tier 3: Companion.** Demos, examples, experiments, and low-traffic helpers.
+- **Tier 4: Archived.** Computed automatically (`archived === true`). Hidden by default.
 
-Repos not listed in the config default to Tier 1 if not archived, Tier 3 if archived.
+Repos not listed in the config default to Tier 3 if not archived, Tier 4 if archived. The dashboard surfaces a yellow warning when any non-archived repo is unclassified.
 
 ## Watched workflows (CI precedence)
 

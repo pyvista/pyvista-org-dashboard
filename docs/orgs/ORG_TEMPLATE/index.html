@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="../../favicon.png" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
   <title>Org Command Dashboard</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -481,7 +481,7 @@
 
   <header class="page-header">
     <div class="brand">
-      <img src="../../assets/pyvista-logo.svg" alt="PyVista" />
+      <img src="/assets/pyvista-logo.svg" alt="PyVista" />
       <h1 id="page-title">Org Command Dashboard</h1>
     </div>
     <a id="org-link" class="org-link" href="#" target="_blank" rel="noopener noreferrer"></a>
@@ -533,18 +533,23 @@
     </section>
 
     <details class="tier-section" id="tier1-section" open>
-      <summary><h2>Core ecosystem <span class="count" id="tier1-count"></span></h2></summary>
+      <summary><h2 id="tier1-label">Core packages <span class="count" id="tier1-count"></span></h2></summary>
       <div class="table-wrap" id="tier1-wrap"></div>
     </details>
 
-    <details class="tier-section" id="tier2-section">
-      <summary><h2>Companion <span class="count" id="tier2-count"></span></h2></summary>
+    <details class="tier-section" id="tier2-section" open>
+      <summary><h2 id="tier2-label">Ecosystem extensions <span class="count" id="tier2-count"></span></h2></summary>
       <div class="table-wrap" id="tier2-wrap"></div>
     </details>
 
-    <details class="tier-section dim" id="tier3-section" style="display:none">
-      <summary><h2>Archived <span class="count" id="tier3-count"></span></h2></summary>
+    <details class="tier-section" id="tier3-section">
+      <summary><h2 id="tier3-label">Companion <span class="count" id="tier3-count"></span></h2></summary>
       <div class="table-wrap" id="tier3-wrap"></div>
+    </details>
+
+    <details class="tier-section dim" id="tier4-section" style="display:none">
+      <summary><h2 id="tier4-label">Archived <span class="count" id="tier4-count"></span></h2></summary>
+      <div class="table-wrap" id="tier4-wrap"></div>
     </details>
 
   </main>
@@ -613,9 +618,10 @@
     const TABLE_COLUMNS_NO_CI = TABLE_COLUMNS_WITH_CI.filter(c => c.key !== "ci");
 
     const TIER_TABLES = [
-      { tier: 1, sectionId: "tier1-section", wrapId: "tier1-wrap", countId: "tier1-count", includeCI: true,  hideWhenEmpty: false },
-      { tier: 2, sectionId: "tier2-section", wrapId: "tier2-wrap", countId: "tier2-count", includeCI: true,  hideWhenEmpty: false },
-      { tier: 3, sectionId: "tier3-section", wrapId: "tier3-wrap", countId: "tier3-count", includeCI: false, hideWhenEmpty: true  },
+      { tier: 1, sectionId: "tier1-section", wrapId: "tier1-wrap", countId: "tier1-count", labelId: "tier1-label", includeCI: true,  hideWhenEmpty: false },
+      { tier: 2, sectionId: "tier2-section", wrapId: "tier2-wrap", countId: "tier2-count", labelId: "tier2-label", includeCI: true,  hideWhenEmpty: false },
+      { tier: 3, sectionId: "tier3-section", wrapId: "tier3-wrap", countId: "tier3-count", labelId: "tier3-label", includeCI: false, hideWhenEmpty: false },
+      { tier: 4, sectionId: "tier4-section", wrapId: "tier4-wrap", countId: "tier4-count", labelId: "tier4-label", includeCI: false, hideWhenEmpty: true  },
     ];
 
     function relInfo(str) {
@@ -845,9 +851,9 @@
     function renderAll() {
       if (!dataset) return;
 
-      const byTier = { 0: [], 1: [], 2: [], 3: [] };
+      const byTier = { 0: [], 1: [], 2: [], 3: [], 4: [] };
       for (const r of dataset.repos) {
-        const t = (r.tier in byTier) ? r.tier : (r.archived ? 3 : 1);
+        const t = (r.tier in byTier) ? r.tier : (r.archived ? 4 : 3);
         byTier[t].push(r);
       }
 
@@ -859,6 +865,7 @@
       });
       renderTier0(t0);
 
+      const tierMeta = dataset.tiers || {};
       for (const t of TIER_TABLES) {
         const raw = byTier[t.tier];
         const section = qs("#" + t.sectionId);
@@ -867,6 +874,11 @@
           continue;
         }
         section.style.display = "";
+        const label = tierMeta[String(t.tier)]?.label;
+        if (label) {
+          const labelEl = qs("#" + t.labelId);
+          labelEl.firstChild.nodeValue = label + " ";
+        }
         const filtered = applySort(applyFilters(raw));
         qs("#" + t.countId).textContent = filtered.length ? `(${filtered.length})` : "";
         renderTable(qs("#" + t.wrapId), filtered, t.includeCI);
@@ -993,8 +1005,9 @@
         const json = await res.json();
         dataset = json;
 
-        qs("#page-title").textContent = `${json.org} · Org Command Dashboard`;
-        document.title                = `${json.org} Org Command Dashboard`;
+        qs("#page-title").textContent = "Org Command Dashboard";
+        const orgUpper = json.org.charAt(0).toUpperCase() + json.org.slice(1);
+        document.title                = `${orgUpper} Org Command Dashboard`;
         qs("#org-link").href          = `https://github.com/${json.org}`;
         qs("#org-link").textContent   = `github.com/${json.org}`;
 

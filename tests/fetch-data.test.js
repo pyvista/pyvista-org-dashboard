@@ -14,14 +14,16 @@ import {
 const CONFIG = {
   tier_labels: {
     0: "Critical infrastructure",
-    1: "Core ecosystem",
-    2: "Companion",
-    3: "Archived",
+    1: "Core packages",
+    2: "Ecosystem extensions",
+    3: "Companion",
+    4: "Archived",
   },
   tiers: {
     0: ["pyvista", "admin"],
-    1: ["pyvistaqt", "tetgen"],
-    2: ["demo-thing"],
+    1: ["pyvistaqt"],
+    2: ["tetgen", "pymeshfix"],
+    3: ["demo-thing"],
   },
   watched_workflows: {
     pyvista: [".github/workflows/integration-tests.yml"],
@@ -41,9 +43,9 @@ async function quietWarn(fn) {
 
 // ───────────────────────────── classifyTier ──────────────────────────────────
 
-test("classifyTier: archived repos are always Tier 3", () => {
-  assert.equal(classifyTier({ name: "pyvista", archived: true }, CONFIG), 3);
-  assert.equal(classifyTier({ name: "anything", archived: true }, CONFIG), 3);
+test("classifyTier: archived repos are always Tier 4", () => {
+  assert.equal(classifyTier({ name: "pyvista", archived: true }, CONFIG), 4);
+  assert.equal(classifyTier({ name: "anything", archived: true }, CONFIG), 4);
 });
 
 test("classifyTier: Tier 0 listed repo", () => {
@@ -52,36 +54,41 @@ test("classifyTier: Tier 0 listed repo", () => {
 });
 
 test("classifyTier: Tier 1 listed repo", () => {
-  assert.equal(classifyTier({ name: "tetgen", archived: false }, CONFIG), 1);
+  assert.equal(classifyTier({ name: "pyvistaqt", archived: false }, CONFIG), 1);
 });
 
 test("classifyTier: Tier 2 listed repo", () => {
-  assert.equal(classifyTier({ name: "demo-thing", archived: false }, CONFIG), 2);
+  assert.equal(classifyTier({ name: "tetgen", archived: false }, CONFIG), 2);
+  assert.equal(classifyTier({ name: "pymeshfix", archived: false }, CONFIG), 2);
 });
 
-test("classifyTier: unlisted non-archived repo defaults to Tier 1", () => {
-  assert.equal(classifyTier({ name: "some-new-repo", archived: false }, CONFIG), 1);
+test("classifyTier: Tier 3 listed repo", () => {
+  assert.equal(classifyTier({ name: "demo-thing", archived: false }, CONFIG), 3);
 });
 
-test("classifyTier: empty config defaults all non-archived to Tier 1", () => {
-  assert.equal(classifyTier({ name: "x", archived: false }, {}), 1);
-  assert.equal(classifyTier({ name: "x", archived: true }, {}), 3);
+test("classifyTier: unlisted non-archived repo defaults to Tier 3", () => {
+  assert.equal(classifyTier({ name: "some-new-repo", archived: false }, CONFIG), 3);
+});
+
+test("classifyTier: empty config defaults all non-archived to Tier 3", () => {
+  assert.equal(classifyTier({ name: "x", archived: false }, {}), 3);
+  assert.equal(classifyTier({ name: "x", archived: true }, {}), 4);
 });
 
 test("classifyTier: null/undefined config does not throw", () => {
-  assert.equal(classifyTier({ name: "x", archived: false }, null), 1);
-  assert.equal(classifyTier({ name: "x", archived: false }, undefined), 1);
-  assert.equal(classifyTier({ name: "x", archived: true }, null), 3);
+  assert.equal(classifyTier({ name: "x", archived: false }, null), 3);
+  assert.equal(classifyTier({ name: "x", archived: false }, undefined), 3);
+  assert.equal(classifyTier({ name: "x", archived: true }, null), 4);
 });
 
-test("classifyTier: multi-tier-membership precedence — Tier 0 wins over Tier 1", () => {
+test("classifyTier: multi-tier-membership precedence: Tier 0 wins over Tier 1", () => {
   const cfg = { tiers: { 0: ["both"], 1: ["both"] } };
   assert.equal(classifyTier({ name: "both", archived: false }, cfg), 0);
 });
 
 test("classifyTier: archived overrides Tier 0", () => {
   const cfg = { tiers: { 0: ["pyvista"] } };
-  assert.equal(classifyTier({ name: "pyvista", archived: true }, cfg), 3);
+  assert.equal(classifyTier({ name: "pyvista", archived: true }, cfg), 4);
 });
 
 // ───────────────────────────── CONCLUSION_PRIORITY ───────────────────────────
@@ -246,7 +253,7 @@ test("buildAlerts: ignores Tier 1+ failures", () => {
     },
     {
       name: "old-thing",
-      tier: 3,
+      tier: 4,
       ci: { watched: [{ name: "Tests", conclusion: "failure", html_url: "u", updated_at: "t" }] },
     },
   ]);
@@ -665,7 +672,8 @@ test("fetchOrg: smoke test — top-level shape and Tier 0 alerting on fetch_erro
   assert.ok(typeof data.fetched_at === "string");
   assert.ok(data.tiers["0"]);
   assert.deepEqual(data.tiers["0"].repos, ["critical-repo"]);
-  assert.deepEqual(data.tiers["1"].repos, ["normal-repo", "extra-repo"]);
+  assert.deepEqual(data.tiers["1"].repos, ["normal-repo"]);
+  assert.deepEqual(data.tiers["3"].repos, ["extra-repo"]);
   assert.deepEqual(data.unclassified_repos, ["extra-repo"]);
   assert.equal(data.repos.length, 3);
 

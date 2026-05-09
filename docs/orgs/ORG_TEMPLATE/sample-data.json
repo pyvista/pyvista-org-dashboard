@@ -4,11 +4,12 @@
   "tiers": {
     "0": {
       "label": "Critical infrastructure",
-      "repos": ["pyvista", "setup-headless-display-action", ".github"]
+      "repos": ["pyvista", "setup-headless-display-action"]
     },
-    "1": { "label": "Core ecosystem", "repos": ["pytest-pyvista", "pyvistaqt", "pyvista-xarray"] },
-    "2": { "label": "Companion", "repos": ["pyvista-tutorial", "demo-something"] },
-    "3": { "label": "Archived", "repos": ["old-thing"] }
+    "1": { "label": "Core packages", "repos": ["pytest-pyvista", "pyvistaqt"] },
+    "2": { "label": "Ecosystem extensions", "repos": ["pyvista-xarray", "pyvista-stl", "tetgen"] },
+    "3": { "label": "Companion", "repos": ["pyvista-tutorial", "demo-something"] },
+    "4": { "label": "Archived", "repos": ["old-thing"] }
   },
   "fetch_errors": [
     {
