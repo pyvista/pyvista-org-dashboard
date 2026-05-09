@@ -8,7 +8,15 @@
   },
   "tiers": {
     "0": ["pyvista", "admin", "website", "setup-headless-display-action", "arc-runners", "data"],
-    "1": ["pyvistaqt", "pytest-pyvista", "pyvista-docs-dynamic"],
+    "1": [
+      "pyvistaqt",
+      "pytest-pyvista",
+      "npt-promote",
+      "vtk-xref",
+      "pyvista-doc-translations",
+      "pyvista-tutorial",
+      "pyvista-tutorial-translations"
+    ],
     "2": [
       "pyvista-manifold",
       "pyvista-stl",
@@ -16,6 +24,7 @@
       "pyvista-trimesh",
       "pyvista-xarray",
       "pyvista-zstd",
+      "pyvista-tui",
       "tetgen",
       "pymeshfix",
       "pyacvd",
@@ -24,13 +33,7 @@
       "pyiges",
       "scikit-gmsh",
       "omfvista",
-      "vtkbool",
-      "npt-promote",
-      "trame-pyvista",
-      "vtk-xref",
-      "pyvista-doc-translations",
-      "pyvista-tutorial",
-      "pyvista-tutorial-translations"
+      "trame-pyvista"
     ],
     "3": [
       ".github",
@@ -40,6 +43,7 @@
       "pyvista-ai",
       "pyvista-benchmarks",
       "pyvista-doc-example",
+      "pyvista-docs-dynamic",
       "pyvista-examples",
       "pyvista-fastapi-webapp",
       "pyvista-gui",
@@ -48,9 +52,9 @@
       "pyvista-media",
       "pyvista-org-dashboard",
       "pyvista-reality",
-      "pyvista-tui",
       "pyvistaqt-exe",
-      "streamlit-stlviewer"
+      "streamlit-stlviewer",
+      "vtkbool"
     ]
   },
   "watched_workflows": {
