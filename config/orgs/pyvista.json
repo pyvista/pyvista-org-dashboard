@@ -6,15 +6,7 @@
     "3": "Archived"
   },
   "tiers": {
-    "0": [
-      "pyvista",
-      "admin",
-      ".github",
-      "setup-headless-display-action",
-      "arc-runners",
-      "data",
-      "pyvista-docs-dynamic"
-    ],
+    "0": ["pyvista", "admin", "website", "setup-headless-display-action", "arc-runners", "data"],
     "1": [
       "pytest-pyvista",
       "pyvistaqt",
@@ -38,9 +30,10 @@
       "pyvista-zstd",
       "pyvista-doc-translations",
       "pyvista-tutorial",
-      "pyvista-tutorial-translations"
+      "pyvista-tutorial-translations",
+      "pyvista-docs-dynamic"
     ],
-    "2": []
+    "2": [".github"]
   },
   "watched_workflows": {
     "pyvista": [
