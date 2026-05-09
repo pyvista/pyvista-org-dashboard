@@ -1,0 +1,22 @@
+# Dependabot configuration.
+# Weekly bumps for npm dependencies and GitHub Actions, grouped into a single
+# PR per ecosystem to keep review noise low.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      npm-all:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      actions-all:
+        patterns:
+          - "*"

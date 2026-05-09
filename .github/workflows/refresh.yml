@@ -9,39 +9,74 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write   # needed to commit data.json files back to the repo
+  contents: read
+  pages: write
+  id-token: write
+  issues: write   # for failure escalation step
+
+# Serialize Pages deploys so concurrent runs do not clobber each other.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
 
+      - name: Mint GitHub App installation token
+        id: app-token
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3  # v3
+        with:
+          app-id: ${{ vars.PYVISTA_DASHBOARD_APP_ID }}
+          private-key: ${{ secrets.PYVISTA_DASHBOARD_APP_PRIVATE_KEY }}
+          owner: pyvista
+
       - name: Set up Node.js
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f  # v6
         with:
-          node-version: "24"
+          node-version: "20"
+          cache: "npm"
 
-      - name: Fetch data for all orgs
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch data and generate pages
         env:
-          # GH_ORGS is a repo Variable (Settings → Variables → Actions)
-          # Set it to a comma-separated list, e.g.: acme,widgets,tools
+          # GH_ORGS is a repo Variable. Defaults to "pyvista" if unset.
           GH_ORGS:  ${{ vars.GH_ORGS }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: node scripts/fetch-data.js
-
-      - name: Generate org pages from template
-        env:
-          GH_ORGS: ${{ vars.GH_ORGS }}
-        run: node scripts/generate-pages.js
-
-      - name: Commit and push
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/
-          # Only commit if something actually changed
-          git diff --cached --quiet || git commit -m "chore: refresh dashboard data [skip ci]"
-          git push
+          npm run fetch
+          npm run generate
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa  # v3.0.1
+        with:
+          path: docs
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e  # v4.0.5
+
+      - name: Open or update failure issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Dashboard refresh failed: $(date -u +%Y-%m-%d)"
+          existing=$(gh issue list --search "in:title \"Dashboard refresh failed\"" --state open --json number --jq '.[0].number' || echo "")
+          body="Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body" --label "dashboard-failure"
+          fi

@@ -1,0 +1,295 @@
+{
+  "org": "pyvista",
+  "fetched_at": "2026-05-09T06:00:00Z",
+  "tiers": {
+    "0": {
+      "label": "Critical infrastructure",
+      "repos": ["pyvista", "setup-headless-display-action", ".github"]
+    },
+    "1": { "label": "Core ecosystem", "repos": ["pytest-pyvista", "pyvistaqt", "pyvista-xarray"] },
+    "2": { "label": "Companion", "repos": ["pyvista-tutorial", "demo-something"] },
+    "3": { "label": "Archived", "repos": ["old-thing"] }
+  },
+  "fetch_errors": [
+    {
+      "repo": "pyvista-xarray",
+      "endpoint": "GET /repos/pyvista/pyvista-xarray/actions/workflows",
+      "message": "HTTP 502: Bad Gateway"
+    }
+  ],
+  "unclassified_repos": ["new-experimental-repo"],
+  "critical_alerts": [
+    {
+      "repo": "pyvista",
+      "workflow": "Integration Tests",
+      "conclusion": "failure",
+      "url": "https://github.com/pyvista/pyvista/actions/runs/123",
+      "updated_at": "2026-05-09T05:00:00Z"
+    },
+    {
+      "repo": ".github",
+      "workflow": "Lint",
+      "conclusion": "failure",
+      "url": "https://github.com/pyvista/.github/actions/runs/456",
+      "updated_at": "2026-05-09T04:00:00Z"
+    }
+  ],
+  "repos": [
+    {
+      "name": "pyvista",
+      "tier": 0,
+      "url": "https://github.com/pyvista/pyvista",
+      "description": "3D plotting and mesh analysis through a streamlined interface for VTK.",
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "default_branch": "main",
+      "open_issues": 123,
+      "open_prs": 45,
+      "pushed_at": "2026-05-08T12:00:00Z",
+      "created_at": "2017-05-31T18:01:42Z",
+      "language": "Python",
+      "stars": 3000,
+      "release": {
+        "tag": "v0.50.0",
+        "published_at": "2026-04-01T00:00:00Z",
+        "url": "https://github.com/pyvista/pyvista/releases/tag/v0.50.0"
+      },
+      "ci": {
+        "worst_conclusion": "failure",
+        "watched": [
+          {
+            "name": "Unit Testing and Deployment",
+            "path": ".github/workflows/testing-and-deployment.yml",
+            "conclusion": "success",
+            "status": "completed",
+            "html_url": "https://github.com/pyvista/pyvista/actions/runs/100",
+            "run_number": 100,
+            "updated_at": "2026-05-09T01:00:00Z",
+            "head_sha": "abc",
+            "head_branch": "main"
+          },
+          {
+            "name": "Integration Tests",
+            "path": ".github/workflows/integration-tests.yml",
+            "conclusion": "failure",
+            "status": "completed",
+            "html_url": "https://github.com/pyvista/pyvista/actions/runs/123",
+            "run_number": 123,
+            "updated_at": "2026-05-09T05:00:00Z",
+            "head_sha": "abc",
+            "head_branch": "main"
+          },
+          {
+            "name": "Build Documentation",
+            "path": ".github/workflows/docs.yml",
+            "conclusion": null,
+            "status": "in_progress",
+            "html_url": "https://github.com/pyvista/pyvista/actions/runs/124",
+            "run_number": 124,
+            "updated_at": "2026-05-09T05:30:00Z",
+            "head_sha": "abc",
+            "head_branch": "main"
+          },
+          {
+            "name": "Nightly Benchmarks",
+            "path": ".github/workflows/benchmarks.yml",
+            "conclusion": "missing",
+            "status": null,
+            "html_url": null,
+            "run_number": null,
+            "updated_at": null,
+            "head_sha": null,
+            "head_branch": null
+          }
+        ]
+      }
+    },
+    {
+      "name": "setup-headless-display-action",
+      "tier": 0,
+      "url": "https://github.com/pyvista/setup-headless-display-action",
+      "description": "GitHub Action to set up a headless display.",
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "default_branch": "main",
+      "open_issues": 2,
+      "open_prs": 0,
+      "pushed_at": "2026-04-01T12:00:00Z",
+      "created_at": "2021-01-01T00:00:00Z",
+      "language": "TypeScript",
+      "stars": 80,
+      "release": {
+        "tag": "v3",
+        "published_at": "2026-03-01T00:00:00Z",
+        "url": "https://example.com/r"
+      },
+      "ci": {
+        "worst_conclusion": "success",
+        "watched": [
+          {
+            "name": "CI",
+            "path": ".github/workflows/ci.yml",
+            "conclusion": "success",
+            "status": "completed",
+            "html_url": "https://example.com/run",
+            "run_number": 50,
+            "updated_at": "2026-05-09T02:00:00Z",
+            "head_sha": "x",
+            "head_branch": "main"
+          }
+        ]
+      }
+    },
+    {
+      "name": ".github",
+      "tier": 0,
+      "url": "https://github.com/pyvista/.github",
+      "description": "Org-level GitHub config.",
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "default_branch": "main",
+      "open_issues": 0,
+      "open_prs": 0,
+      "pushed_at": "2026-05-01T00:00:00Z",
+      "created_at": "2020-01-01T00:00:00Z",
+      "language": null,
+      "stars": 5,
+      "release": null,
+      "ci": {
+        "worst_conclusion": "failure",
+        "watched": [
+          {
+            "name": "Lint",
+            "path": ".github/workflows/lint.yml",
+            "conclusion": "failure",
+            "status": "completed",
+            "html_url": "https://github.com/pyvista/.github/actions/runs/456",
+            "run_number": 456,
+            "updated_at": "2026-05-09T04:00:00Z",
+            "head_sha": "y",
+            "head_branch": "main"
+          }
+        ]
+      }
+    },
+    {
+      "name": "pytest-pyvista",
+      "tier": 1,
+      "url": "https://github.com/pyvista/pytest-pyvista",
+      "description": "Pytest plugin for PyVista image regression.",
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "default_branch": "main",
+      "open_issues": 7,
+      "open_prs": 3,
+      "pushed_at": "2026-05-05T00:00:00Z",
+      "created_at": "2022-01-01T00:00:00Z",
+      "language": "Python",
+      "stars": 25,
+      "release": {
+        "tag": "v0.2.0",
+        "published_at": "2026-04-15T00:00:00Z",
+        "url": "https://example.com/r2"
+      },
+      "ci": { "worst_conclusion": "success", "watched": [] }
+    },
+    {
+      "name": "pyvistaqt",
+      "tier": 1,
+      "url": "https://github.com/pyvista/pyvistaqt",
+      "description": "PyQt support for PyVista.",
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "default_branch": "main",
+      "open_issues": 22,
+      "open_prs": 1,
+      "pushed_at": "2026-04-20T00:00:00Z",
+      "created_at": "2020-01-01T00:00:00Z",
+      "language": "Python",
+      "stars": 220,
+      "release": {
+        "tag": "v0.11",
+        "published_at": "2025-12-01T00:00:00Z",
+        "url": "https://example.com/r3"
+      },
+      "ci": { "worst_conclusion": "in_progress", "watched": [] }
+    },
+    {
+      "name": "pyvista-xarray",
+      "tier": 1,
+      "url": "https://github.com/pyvista/pyvista-xarray",
+      "description": "xarray accessor for PyVista.",
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "default_branch": "main",
+      "open_issues": 4,
+      "open_prs": 0,
+      "pushed_at": "2026-02-10T00:00:00Z",
+      "created_at": "2022-06-01T00:00:00Z",
+      "language": "Python",
+      "stars": 90,
+      "release": null,
+      "ci": { "worst_conclusion": "none", "watched": [] }
+    },
+    {
+      "name": "pyvista-tutorial",
+      "tier": 2,
+      "url": "https://github.com/pyvista/pyvista-tutorial",
+      "description": "Tutorial materials for PyVista.",
+      "archived": false,
+      "fork": false,
+      "private": false,
+      "default_branch": "main",
+      "open_issues": 1,
+      "open_prs": 0,
+      "pushed_at": "2025-11-01T00:00:00Z",
+      "created_at": "2022-06-01T00:00:00Z",
+      "language": "Python",
+      "stars": 50,
+      "release": null,
+      "ci": { "worst_conclusion": "success", "watched": [] }
+    },
+    {
+      "name": "demo-something",
+      "tier": 2,
+      "url": "https://github.com/pyvista/demo-something",
+      "description": "Demo repo.",
+      "archived": false,
+      "fork": true,
+      "private": false,
+      "default_branch": "main",
+      "open_issues": 0,
+      "open_prs": 0,
+      "pushed_at": "2024-01-01T00:00:00Z",
+      "created_at": "2022-06-01T00:00:00Z",
+      "language": "Python",
+      "stars": 2,
+      "release": null,
+      "ci": { "worst_conclusion": "none", "watched": [] }
+    },
+    {
+      "name": "old-thing",
+      "tier": 3,
+      "url": "https://github.com/pyvista/old-thing",
+      "description": "Archived experiment.",
+      "archived": true,
+      "fork": false,
+      "private": false,
+      "default_branch": "main",
+      "open_issues": 0,
+      "open_prs": 0,
+      "pushed_at": "2022-01-01T00:00:00Z",
+      "created_at": "2020-01-01T00:00:00Z",
+      "language": "Python",
+      "stars": 1,
+      "release": null,
+      "ci": { "worst_conclusion": "none", "watched": [] }
+    }
+  ]
+}

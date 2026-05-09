@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GitHub Org Dashboard</title>
+  <title>Org Command Dashboard</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --bg:           #ffffff;
       --bg-secondary: #f5f5f4;
+      --bg-tertiary:  #fafaf9;
       --text:         #1a1a1a;
       --text-sec:     #6b7280;
       --text-ter:     #9ca3af;
@@ -17,19 +18,30 @@
       --border-h:     rgba(0,0,0,0.2);
       --accent:       #2563eb;
       --accent-bg:    #eff6ff;
+      --warn:         #ca8a04;
       --warn-bg:      #fffbeb;
       --warn-text:    #92400e;
+      --warn-strong:  #a16207;
       --success:      #15803d;
+      --success-bg:   #dcfce7;
+      --success-text: #166534;
       --danger:       #dc2626;
       --danger-bg:    #fef2f2;
       --danger-text:  #991b1b;
+      --danger-strong:#b91c1c;
+      --in-progress:  #ca8a04;
+      --in-progress-bg:#fef9c3;
+      --neutral:      #9ca3af;
+      --neutral-bg:   #f3f4f6;
       --radius:       8px;
+      --alert-shadow: 0 0 0 1px rgba(220,38,38,0.4), 0 8px 24px rgba(220,38,38,0.18);
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
         --bg:           #1c1c1e;
         --bg-secondary: #2c2c2e;
+        --bg-tertiary:  #232325;
         --text:         #f5f5f5;
         --text-sec:     #a1a1aa;
         --text-ter:     #71717a;
@@ -37,12 +49,22 @@
         --border-h:     rgba(255,255,255,0.2);
         --accent:       #60a5fa;
         --accent-bg:    #1e3a5f;
+        --warn:         #fde047;
         --warn-bg:      #451a03;
         --warn-text:    #fcd34d;
+        --warn-strong:  #fcd34d;
         --success:      #4ade80;
+        --success-bg:   #052e16;
+        --success-text: #86efac;
         --danger:       #f87171;
         --danger-bg:    #450a0a;
         --danger-text:  #fca5a5;
+        --danger-strong:#fca5a5;
+        --in-progress:  #fde047;
+        --in-progress-bg:#422006;
+        --neutral:      #71717a;
+        --neutral-bg:   #2c2c2e;
+        --alert-shadow: 0 0 0 1px rgba(248,113,113,0.5), 0 8px 24px rgba(248,113,113,0.2);
       }
     }
 
@@ -66,22 +88,153 @@
     }
 
     h1 { font-size: 20px; font-weight: 600; }
+    h2 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 1.75rem 0 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h2 .count { font-size: 12px; font-weight: 500; color: var(--text-ter); }
 
     .org-link { font-size: 13px; color: var(--accent); text-decoration: none; }
     .org-link:hover { text-decoration: underline; }
 
     .subtitle { font-size: 13px; color: var(--text-sec); margin-bottom: 1.5rem; }
 
+    /* Persistent status pill: green/yellow/red, always rendered when data is loaded. */
+    .status-pill {
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin-bottom: 1rem;
+      border: 1.5px solid transparent;
+      font-size: 13px;
+    }
+    .status-pill .status-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .status-pill .status-icon {
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-pill .status-title {
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .status-pill .status-meta {
+      margin-left: auto;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    .status-pill.green {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border-color: rgba(21,128,61,0.35);
+    }
+    .status-pill.green .status-icon { background: var(--success); }
+    .status-pill.yellow {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      border-color: rgba(202,138,4,0.4);
+    }
+    .status-pill.yellow .status-icon { background: var(--in-progress); }
+    .status-pill.red {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border-color: var(--danger);
+      box-shadow: var(--alert-shadow);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    .status-pill.red .status-icon {
+      background: var(--danger);
+      box-shadow: 0 0 0 4px rgba(220,38,38,0.2);
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: var(--alert-shadow); }
+      50%      { box-shadow: 0 0 0 1px rgba(220,38,38,0.7), 0 8px 32px rgba(220,38,38,0.35); }
+    }
+    .status-pill ul { list-style: none; display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+    .status-pill li { font-size: 13px; }
+    .status-pill a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .status-pill a:hover { text-decoration: underline; }
+    .status-pill .sep { opacity: 0.55; margin: 0 6px; }
+
+    /* Issues panel: fetch_errors + unclassified_repos */
+    details.issues-panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+      padding: 0;
+      font-size: 13px;
+    }
+    details.issues-panel > summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+    details.issues-panel > summary::-webkit-details-marker { display: none; }
+    details.issues-panel > summary::before {
+      content: "▸";
+      font-size: 11px;
+      color: var(--text-sec);
+      transition: transform 0.15s ease;
+    }
+    details.issues-panel[open] > summary::before { transform: rotate(90deg); }
+    details.issues-panel .issues-body { padding: 0 14px 14px 14px; }
+    details.issues-panel h3 {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-sec);
+      margin: 8px 0 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    details.issues-panel ul { list-style: disc; padding-left: 1.25rem; }
+    details.issues-panel li { margin-bottom: 2px; }
+    details.issues-panel .note { color: var(--text-sec); font-size: 12px; margin-top: 4px; }
+    details.issues-panel code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      background: var(--bg-tertiary);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
     /* Stats */
     .stats-bar {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0,1fr));
+      grid-template-columns: repeat(5, minmax(0,1fr));
       gap: 10px;
       margin-bottom: 1.25rem;
     }
+    @media (max-width: 720px) {
+      .stats-bar { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
     .stat-card { background: var(--bg-secondary); border-radius: var(--radius); padding: 12px 14px; }
     .stat-label { font-size: 11px; color: var(--text-sec); margin-bottom: 4px; }
-    .stat-val   { font-size: 22px; font-weight: 600; }
+    .stat-val   { font-size: 22px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .stat-val .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .stat-val .dot.ok   { background: var(--success); }
+    .stat-val .dot.bad  { background: var(--danger); }
+    .stat-val .dot.warn { background: var(--in-progress); }
+    .stat-val .dot.idle { background: var(--neutral); }
+    .stat-val .small    { font-size: 14px; font-weight: 500; }
 
     /* Filters */
     .filters {
@@ -113,6 +266,136 @@
       cursor: pointer;
     }
 
+    /* Tier 0 cards */
+    .tier0-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 12px;
+      margin-bottom: 0.5rem;
+    }
+    .repo-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .repo-card.has-failure { border-color: var(--danger); }
+    .repo-card .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .repo-card .card-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .repo-card .card-name:hover { text-decoration: underline; }
+    .repo-card .card-desc {
+      font-size: 12px;
+      color: var(--text-sec);
+      line-height: 1.45;
+    }
+    .repo-card .card-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-sec);
+    }
+    .repo-card .card-meta .sep { color: var(--text-ter); }
+    .ci-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ci-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid transparent;
+    }
+    .ci-chip .chip-dot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+    }
+    .ci-chip.success     { background: var(--success-bg); color: var(--success); border-color: rgba(21,128,61,0.25); }
+    .ci-chip.success .chip-dot { background: var(--success); }
+    .ci-chip.failure,
+    .ci-chip.timed_out,
+    .ci-chip.action_required,
+    .ci-chip.startup_failure,
+    .ci-chip.fetch_error { background: var(--danger-bg); color: var(--danger-strong); border-color: rgba(220,38,38,0.3); }
+    .ci-chip.failure .chip-dot,
+    .ci-chip.timed_out .chip-dot,
+    .ci-chip.action_required .chip-dot,
+    .ci-chip.startup_failure .chip-dot,
+    .ci-chip.fetch_error .chip-dot { background: var(--danger); }
+    .ci-chip.fetch_error::before { content: "\2620"; font-size: 11px; line-height: 1; margin-right: 1px; }
+    .ci-chip.in_progress,
+    .ci-chip.queued,
+    .ci-chip.missing { background: var(--in-progress-bg); color: var(--in-progress); border-color: rgba(202,138,4,0.3); }
+    .ci-chip.in_progress .chip-dot,
+    .ci-chip.queued .chip-dot,
+    .ci-chip.missing .chip-dot { background: var(--in-progress); }
+    .ci-chip.cancelled,
+    .ci-chip.skipped,
+    .ci-chip.none        { background: var(--neutral-bg); color: var(--text-sec); border-color: var(--border); }
+    .ci-chip.cancelled .chip-dot,
+    .ci-chip.skipped .chip-dot,
+    .ci-chip.none .chip-dot { background: var(--neutral); }
+
+    /* Status dot in tables */
+    .status-dot {
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      vertical-align: middle;
+    }
+    .status-dot.success     { background: var(--success); }
+    .status-dot.failure,
+    .status-dot.timed_out,
+    .status-dot.action_required,
+    .status-dot.startup_failure,
+    .status-dot.fetch_error { background: var(--danger); }
+    .status-dot.in_progress,
+    .status-dot.queued,
+    .status-dot.missing     { background: var(--in-progress); }
+    .status-dot.cancelled,
+    .status-dot.skipped,
+    .status-dot.none        { background: var(--neutral); }
+
+    /* Section wrappers */
+    section { margin-bottom: 0.5rem; }
+    details.tier-section { margin-bottom: 0.5rem; }
+    details.tier-section > summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.25rem 0;
+      user-select: none;
+    }
+    details.tier-section > summary::-webkit-details-marker { display: none; }
+    details.tier-section > summary::before {
+      content: "▸";
+      font-size: 11px;
+      color: var(--text-sec);
+      transition: transform 0.15s ease;
+    }
+    details.tier-section[open] > summary::before { transform: rotate(90deg); }
+    details.tier-section > summary h2 { margin: 0; }
+    details.tier-section.dim { opacity: 0.7; }
+    details.tier-section.dim a.repo-link { color: var(--text-sec); }
+
     /* Table */
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -138,7 +421,7 @@
       vertical-align: middle;
     }
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: var(--bg-secondary); }
+    tr:hover td { background: var(--bg-tertiary); }
 
     a.repo-link { font-weight: 500; color: var(--accent); text-decoration: none; }
     a.repo-link:hover { text-decoration: underline; }
@@ -156,6 +439,12 @@
     .muted { color: var(--text-sec); }
     .dim   { color: var(--text-ter); font-style: italic; }
 
+    /* Inline element classes (replacing inline style attributes) */
+    .release-link { color: inherit; text-decoration: none; }
+    .release-tag  { font-size: 11px; opacity: 0.6; }
+    .row-desc     { font-size: 12px; color: var(--text-sec); }
+    .no-watched   { font-size: 12px; }
+
     /* Error / loading */
     .error-box {
       background: var(--danger-bg);
@@ -167,6 +456,7 @@
       line-height: 1.6;
     }
     .msg-cell { text-align: center; padding: 2.5rem; color: var(--text-sec); font-size: 14px; }
+    .empty-section { padding: 1.25rem; color: var(--text-sec); font-size: 13px; text-align: center; background: var(--bg-secondary); border-radius: var(--radius); }
     .spin { display: inline-block; animation: spin 0.9s linear infinite; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -186,211 +476,551 @@
 </head>
 <body>
 
-  <div class="page-header">
-    <h1 id="page-title">GitHub Org Dashboard</h1>
+  <header class="page-header">
+    <h1 id="page-title">Org Command Dashboard</h1>
     <a id="org-link" class="org-link" href="#" target="_blank" rel="noopener noreferrer"></a>
-  </div>
-  <p class="subtitle" id="subtitle"><span class="spin">⟳</span> Loading…</p>
+  </header>
+  <p class="subtitle" id="subtitle"><span class="spin">&#x27F3;</span> Loading&hellip;</p>
 
   <div id="error-box" class="error-box" style="display:none"></div>
 
+  <aside id="status-pill" class="status-pill" role="status" style="display:none"></aside>
+
+  <details id="issues-panel" class="issues-panel" style="display:none">
+    <summary id="issues-panel-summary"></summary>
+    <div class="issues-body" id="issues-panel-body"></div>
+  </details>
+
   <div class="stats-bar" id="stats-bar" style="display:none">
-    <div class="stat-card"><div class="stat-label">Repos</div><div class="stat-val" id="s-repos">—</div></div>
-    <div class="stat-card"><div class="stat-label">Open issues</div><div class="stat-val" id="s-issues">—</div></div>
-    <div class="stat-card"><div class="stat-label">Open PRs</div><div class="stat-val" id="s-prs">—</div></div>
-    <div class="stat-card"><div class="stat-label">With releases</div><div class="stat-val" id="s-rel">—</div></div>
+    <div class="stat-card"><div class="stat-label">Repos</div><div class="stat-val" id="s-repos">&mdash;</div></div>
+    <div class="stat-card"><div class="stat-label">Open issues</div><div class="stat-val" id="s-issues">&mdash;</div></div>
+    <div class="stat-card"><div class="stat-label">Open PRs</div><div class="stat-val" id="s-prs">&mdash;</div></div>
+    <div class="stat-card"><div class="stat-label">With releases</div><div class="stat-val" id="s-rel">&mdash;</div></div>
+    <div class="stat-card"><div class="stat-label">Tier 0 health</div><div class="stat-val" id="s-health"><span class="dot idle"></span><span class="small">&mdash;</span></div></div>
   </div>
 
   <div class="filters" id="filters" style="display:none">
-    <input type="text" id="search" placeholder="Search repos…" oninput="renderTable()" />
-    <select id="sort-col" onchange="renderTable()">
+    <input type="text" id="search" placeholder="Search repos&hellip;" oninput="renderAll()" />
+    <select id="sort-col" onchange="renderAll()">
       <option value="name">Sort: Name</option>
       <option value="issues">Sort: Open issues</option>
       <option value="prs">Sort: Open PRs</option>
       <option value="activity">Sort: Last activity</option>
       <option value="release">Sort: Last release</option>
       <option value="stars">Sort: Stars</option>
+      <option value="ci">Sort: CI</option>
     </select>
-    <select id="sort-dir" onchange="renderTable()">
+    <select id="sort-dir" onchange="renderAll()">
       <option value="asc">Ascending</option>
       <option value="desc">Descending</option>
     </select>
-    <label><input type="checkbox" id="hide-arch" onchange="renderTable()" /> Hide archived</label>
-    <label><input type="checkbox" id="hide-forks" onchange="renderTable()" /> Hide forks</label>
+    <label><input type="checkbox" id="hide-arch" onchange="renderAll()" /> Hide archived</label>
+    <label><input type="checkbox" id="hide-forks" onchange="renderAll()" /> Hide forks</label>
   </div>
 
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th data-col="name">Repository <span class="arrow">↕</span></th>
-          <th data-col="issues">Issues <span class="arrow">↕</span></th>
-          <th data-col="prs">PRs <span class="arrow">↕</span></th>
-          <th data-col="stars">Stars <span class="arrow">↕</span></th>
-          <th data-col="activity">Last activity <span class="arrow">↕</span></th>
-          <th data-col="release">Last release <span class="arrow">↕</span></th>
-        </tr>
-      </thead>
-      <tbody id="tbody">
-        <tr><td colspan="6" class="msg-cell"><span class="spin">⟳</span> Loading…</td></tr>
-      </tbody>
-    </table>
-  </div>
+  <main id="main-content" style="display:none">
+
+    <section id="tier0-section">
+      <h2>Critical infrastructure <span class="count" id="tier0-count"></span></h2>
+      <div class="tier0-grid" id="tier0-grid"></div>
+      <div class="empty-section" id="tier0-empty" style="display:none">No Tier 0 repositories.</div>
+    </section>
+
+    <details class="tier-section" id="tier1-section" open>
+      <summary><h2>Core ecosystem <span class="count" id="tier1-count"></span></h2></summary>
+      <div class="table-wrap" id="tier1-wrap"></div>
+    </details>
+
+    <details class="tier-section" id="tier2-section">
+      <summary><h2>Companion <span class="count" id="tier2-count"></span></h2></summary>
+      <div class="table-wrap" id="tier2-wrap"></div>
+    </details>
+
+    <details class="tier-section dim" id="tier3-section" style="display:none">
+      <summary><h2>Archived <span class="count" id="tier3-count"></span></h2></summary>
+      <div class="table-wrap" id="tier3-wrap"></div>
+    </details>
+
+  </main>
 
   <footer>
     <span id="footer-updated"></span>
-    <span>Data refreshed daily via <a href="../../actions" target="_blank">GitHub Actions</a></span>
+    <span>Data refreshed daily via <a href="../../actions" target="_blank" rel="noopener noreferrer">GitHub Actions</a></span>
   </footer>
 
   <script>
-    let allRepos = [];
+    let dataset = null;
 
     const qs = s => document.querySelector(s);
 
-    function relDate(str) {
-      if (!str) return null;
-      const days = (Date.now() - new Date(str).getTime()) / 86400000;
-      if (days < 1)   return "today";
-      if (days < 2)   return "yesterday";
-      if (days < 7)   return Math.floor(days) + "d ago";
-      if (days < 30)  return Math.floor(days / 7) + "w ago";
-      if (days < 365) return Math.floor(days / 30) + "mo ago";
-      return Math.floor(days / 365) + "y ago";
-    }
+    const TIER_LABELS = {
+      0: "Critical infrastructure",
+      1: "Core ecosystem",
+      2: "Companion",
+      3: "Archived",
+    };
 
-    function dateClass(str) {
-      if (!str) return "muted";
+    // Lower = healthier; used for sort ordering.
+    const CI_RANK = {
+      success:         0,
+      none:            1,
+      skipped:         2,
+      cancelled:       3,
+      queued:          4,
+      in_progress:     5,
+      missing:         6,
+      action_required: 7,
+      startup_failure: 8,
+      timed_out:       9,
+      cancelled_:      9,
+      failure:         10,
+      fetch_error:     11,
+    };
+
+    // Conclusions whose Tier 0 card should get the red border.
+    const RED_CONCLUSIONS = new Set([
+      "fetch_error",
+      "missing",
+      "failure",
+      "cancelled",
+      "timed_out",
+      "action_required",
+      "startup_failure",
+    ]);
+
+    // All conclusions the CSS knows how to style.
+    const KNOWN_CONCLUSIONS = new Set([
+      "success", "failure", "cancelled", "timed_out", "action_required",
+      "startup_failure", "in_progress", "queued", "skipped", "missing",
+      "fetch_error", "none",
+    ]);
+
+    const TABLE_COLUMNS_WITH_CI = [
+      { key: "name",     label: "Repository" },
+      { key: "ci",       label: "CI" },
+      { key: "issues",   label: "Issues" },
+      { key: "prs",      label: "PRs" },
+      { key: "stars",    label: "Stars" },
+      { key: "activity", label: "Last activity" },
+      { key: "release",  label: "Last release" },
+    ];
+    const TABLE_COLUMNS_NO_CI = TABLE_COLUMNS_WITH_CI.filter(c => c.key !== "ci");
+
+    const TIER_TABLES = [
+      { tier: 1, sectionId: "tier1-section", wrapId: "tier1-wrap", countId: "tier1-count", includeCI: true,  hideWhenEmpty: false },
+      { tier: 2, sectionId: "tier2-section", wrapId: "tier2-wrap", countId: "tier2-count", includeCI: true,  hideWhenEmpty: false },
+      { tier: 3, sectionId: "tier3-section", wrapId: "tier3-wrap", countId: "tier3-count", includeCI: false, hideWhenEmpty: true  },
+    ];
+
+    function relInfo(str) {
+      if (!str) return { text: null, cls: "muted" };
       const days = (Date.now() - new Date(str).getTime()) / 86400000;
-      if (days < 30)  return "fresh";
-      if (days > 365) return "stale";
-      return "muted";
+      let text;
+      if      (days < 1)   text = "today";
+      else if (days < 2)   text = "yesterday";
+      else if (days < 7)   text = Math.floor(days) + "d ago";
+      else if (days < 30)  text = Math.floor(days / 7) + "w ago";
+      else if (days < 365) text = Math.floor(days / 30) + "mo ago";
+      else                 text = Math.floor(days / 365) + "y ago";
+      const cls = days < 30 ? "fresh" : days > 365 ? "stale" : "muted";
+      return { text, cls };
     }
 
     function fmtDateTime(iso) {
       return new Date(iso).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
     }
 
-    function renderTable() {
-      const search    = qs("#search").value.toLowerCase();
-      const col       = qs("#sort-col").value;
-      const dir       = qs("#sort-dir").value;
+    function escapeHtml(s) {
+      if (s == null) return "";
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function ciConclusion(repo) {
+      return repo.ci?.worst_conclusion || "none";
+    }
+
+    function applyFilters(repos) {
+      const search    = qs("#search").value.toLowerCase().trim();
       const hideArch  = qs("#hide-arch").checked;
       const hideForks = qs("#hide-forks").checked;
-
-      document.querySelectorAll("th[data-col]").forEach(th => {
-        th.classList.toggle("active", th.dataset.col === col);
-        th.querySelector(".arrow").textContent =
-          th.dataset.col === col ? (dir === "asc" ? "↑" : "↓") : "↕";
-      });
-
-      let repos = allRepos.filter(r => {
+      return repos.filter(r => {
         if (hideArch  && r.archived) return false;
         if (hideForks && r.fork)     return false;
-        if (search && !r.name.toLowerCase().includes(search) &&
-            !(r.description || "").toLowerCase().includes(search)) return false;
+        if (search) {
+          const hay = (r.name + " " + (r.description || "")).toLowerCase();
+          if (!hay.includes(search)) return false;
+        }
         return true;
       });
+    }
 
-      repos.sort((a, b) => {
+    function applySort(repos) {
+      const col = qs("#sort-col").value;
+      const dir = qs("#sort-dir").value;
+      const sorted = repos.slice().sort((a, b) => {
         let va, vb;
-        if (col === "name")     { va = a.name.toLowerCase();              vb = b.name.toLowerCase(); }
-        if (col === "issues")   { va = a.open_issues;                     vb = b.open_issues; }
-        if (col === "prs")      { va = a.open_prs;                        vb = b.open_prs; }
-        if (col === "stars")    { va = a.stars;                           vb = b.stars; }
-        if (col === "activity") { va = a.pushed_at || "";                 vb = b.pushed_at || ""; }
-        if (col === "release")  { va = a.release?.published_at || "";     vb = b.release?.published_at || ""; }
+        switch (col) {
+          case "name":     va = a.name.toLowerCase();              vb = b.name.toLowerCase(); break;
+          case "issues":   va = a.open_issues || 0;                vb = b.open_issues || 0; break;
+          case "prs":      va = a.open_prs || 0;                   vb = b.open_prs || 0; break;
+          case "stars":    va = a.stars || 0;                      vb = b.stars || 0; break;
+          case "activity": va = a.pushed_at || "";                 vb = b.pushed_at || ""; break;
+          case "release":  va = a.release?.published_at || "";     vb = b.release?.published_at || ""; break;
+          case "ci":       va = CI_RANK[ciConclusion(a)] ?? 1;     vb = CI_RANK[ciConclusion(b)] ?? 1; break;
+          default:         va = a.name; vb = b.name;
+        }
         if (va < vb) return dir === "asc" ? -1 : 1;
         if (va > vb) return dir === "asc" ?  1 : -1;
         return 0;
       });
+      return sorted;
+    }
+
+    function badgeIssues(n) {
+      return n > 0
+        ? `<span class="badge b-warn">${n}</span>`
+        : `<span class="badge b-zero">0</span>`;
+    }
+    function badgePRs(n) {
+      return n > 0
+        ? `<span class="badge b-info">${n}</span>`
+        : `<span class="badge b-zero">0</span>`;
+    }
+
+    function badges(r) {
+      const a = r.archived ? '<span class="badge b-arch">archived</span>' : "";
+      const f = r.fork     ? '<span class="badge b-arch">fork</span>'     : "";
+      return a + f;
+    }
+
+    function releaseCell(r) {
+      if (!r.release) return '<span class="dim">no release</span>';
+      const { text, cls } = relInfo(r.release.published_at);
+      return `<a href="${escapeHtml(r.release.url)}" target="_blank" rel="noopener noreferrer"
+                 class="${cls} release-link">
+                 ${text} <span class="release-tag">${escapeHtml(r.release.tag)}</span>
+              </a>`;
+    }
+
+    function chipClass(conclusion) {
+      return KNOWN_CONCLUSIONS.has(conclusion) ? conclusion : "none";
+    }
+
+    function chipTooltip(w) {
+      const conc = w.conclusion || (w.status === "in_progress" ? "in_progress" : (w.status === "queued" ? "queued" : "none"));
+      if (conc === "missing")     return `${w.name} · no runs found on default branch`;
+      if (conc === "fetch_error") return `${w.name} · fetch failed${w.error ? ": " + w.error : ""}`;
+      return `${w.name} · ${conc}${w.run_number ? " · #" + w.run_number : ""}`;
+    }
+
+    function tier0Card(r) {
+      const worst     = ciConclusion(r);
+      const cardClass = RED_CONCLUSIONS.has(worst) ? "repo-card has-failure" : "repo-card";
+
+      const watched = r.ci?.watched || [];
+      const chips = watched.length
+        ? watched.map(w => {
+            const raw  = w.conclusion || (w.status === "in_progress" ? "in_progress" : (w.status === "queued" ? "queued" : "none"));
+            const safe = chipClass(raw);
+            const url  = w.html_url || r.url;
+            return `<a class="ci-chip ${safe}" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer"
+                       title="${escapeHtml(chipTooltip(w))}">
+                       <span class="chip-dot"></span>${escapeHtml(w.name)}${safe === "missing" ? " (missing)" : ""}
+                    </a>`;
+          }).join("")
+        : '<span class="dim no-watched">No watched workflows</span>';
+
+      const act = relInfo(r.pushed_at);
+      let relHtml;
+      if (r.release) {
+        const rel = relInfo(r.release.published_at);
+        const txt = `${rel.text} ${escapeHtml(r.release.tag)}`;
+        relHtml = `<a href="${escapeHtml(r.release.url)}" target="_blank" rel="noopener noreferrer" class="release-link">${txt}</a>`;
+      } else {
+        relHtml = '<span class="dim">no release</span>';
+      }
+
+      return `<article class="${cardClass}">
+        <div class="card-head">
+          <a class="card-name" href="${escapeHtml(r.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(r.name)}</a>
+          <div>${badges(r)} ${badgeIssues(r.open_issues)} ${badgePRs(r.open_prs)}</div>
+        </div>
+        ${r.description ? `<div class="card-desc">${escapeHtml(r.description)}</div>` : ""}
+        <div class="card-meta">
+          <span class="${act.cls}">${act.text ? "active " + act.text : "no activity"}</span>
+          <span class="sep">&middot;</span>
+          <span>${relHtml}</span>
+        </div>
+        <div class="ci-chips">${chips}</div>
+      </article>`;
+    }
+
+    function renderTier0(repos) {
+      const grid  = qs("#tier0-grid");
+      const empty = qs("#tier0-empty");
+      qs("#tier0-count").textContent = repos.length ? `(${repos.length})` : "";
 
       if (!repos.length) {
-        qs("#tbody").innerHTML = '<tr><td colspan="6" class="msg-cell">No repos match your filters.</td></tr>';
+        grid.innerHTML = "";
+        grid.style.display = "none";
+        empty.style.display = "block";
+        return;
+      }
+      grid.style.display = "grid";
+      empty.style.display = "none";
+
+      // Tier 0 always sorts by name to keep layout stable.
+      const sorted = repos.slice().sort((a, b) => a.name.localeCompare(b.name));
+      grid.innerHTML = sorted.map(tier0Card).join("");
+    }
+
+    function renderTable(wrapEl, repos, includeCI) {
+      if (!repos.length) {
+        wrapEl.innerHTML = `<div class="empty-section">No repositories match your filters.</div>`;
         return;
       }
 
-      qs("#tbody").innerHTML = repos.map(r => {
-        const archBadge  = r.archived ? '<span class="badge b-arch">archived</span>' : "";
-        const forkBadge  = r.fork     ? '<span class="badge b-arch">fork</span>'     : "";
-        const issueBadge = r.open_issues > 0
-          ? `<span class="badge b-warn">${r.open_issues}</span>`
-          : `<span class="badge b-zero">0</span>`;
-        const prBadge = r.open_prs > 0
-          ? `<span class="badge b-info">${r.open_prs}</span>`
-          : `<span class="badge b-zero">0</span>`;
-        const act = relDate(r.pushed_at);
-        const rel = r.release ? relDate(r.release.published_at) : null;
-        const relCell = rel
-          ? `<a href="${r.release.url}" target="_blank" rel="noopener noreferrer"
-               class="${dateClass(r.release.published_at)}" style="text-decoration:none">
-               ${rel} <span style="font-size:11px;opacity:0.6">${r.release.tag}</span>
-             </a>`
-          : '<span class="dim">no release</span>';
+      const col = qs("#sort-col").value;
+      const dir = qs("#sort-dir").value;
+      const arrow = c => c === col ? (dir === "asc" ? "&uarr;" : "&darr;") : "&#x2195;";
+      const active = c => c === col ? "active" : "";
+
+      const cols = includeCI ? TABLE_COLUMNS_WITH_CI : TABLE_COLUMNS_NO_CI;
+      const headerHtml = cols.map(c =>
+        `<th data-col="${c.key}" class="${active(c.key)}">${c.label} <span class="arrow">${arrow(c.key)}</span></th>`
+      ).join("");
+
+      const rows = repos.map(r => {
+        const act = relInfo(r.pushed_at);
+        const ciCell = includeCI
+          ? `<td title="${escapeHtml(ciConclusion(r))}"><span class="status-dot ${chipClass(ciConclusion(r))}"></span></td>`
+          : "";
 
         return `<tr>
           <td>
-            <a class="repo-link" href="${r.url}" target="_blank" rel="noopener noreferrer">${r.name}</a>
-            ${archBadge}${forkBadge}
-            ${r.description ? `<br><span style="font-size:12px;color:var(--text-sec)">${r.description}</span>` : ""}
+            <a class="repo-link" href="${escapeHtml(r.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(r.name)}</a>
+            ${badges(r)}
+            ${r.description ? `<br><span class="row-desc">${escapeHtml(r.description)}</span>` : ""}
           </td>
-          <td>${issueBadge}</td>
-          <td>${prBadge}</td>
-          <td class="muted">${r.stars > 0 ? "★ " + r.stars.toLocaleString() : "—"}</td>
-          <td class="${dateClass(r.pushed_at)}">${act || "—"}</td>
-          <td>${relCell}</td>
+          ${ciCell}
+          <td>${badgeIssues(r.open_issues)}</td>
+          <td>${badgePRs(r.open_prs)}</td>
+          <td class="muted">${r.stars > 0 ? "&#9733; " + r.stars.toLocaleString() : "&mdash;"}</td>
+          <td class="${act.cls}">${act.text || "&mdash;"}</td>
+          <td>${releaseCell(r)}</td>
         </tr>`;
       }).join("");
+
+      wrapEl.innerHTML = `
+        <table>
+          <thead><tr>${headerHtml}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+
+      wrapEl.querySelectorAll("th[data-col]").forEach(th => {
+        th.addEventListener("click", () => {
+          const c = th.dataset.col;
+          if (qs("#sort-col").value === c) {
+            qs("#sort-dir").value = qs("#sort-dir").value === "asc" ? "desc" : "asc";
+          } else {
+            qs("#sort-col").value = c;
+            qs("#sort-dir").value = "asc";
+          }
+          renderAll();
+        });
+      });
     }
 
-    document.querySelectorAll("th[data-col]").forEach(th => {
-      th.addEventListener("click", () => {
-        const col = th.dataset.col;
-        if (qs("#sort-col").value === col) {
-          qs("#sort-dir").value = qs("#sort-dir").value === "asc" ? "desc" : "asc";
-        } else {
-          qs("#sort-col").value = col;
-          qs("#sort-dir").value = "asc";
-        }
-        renderTable();
+    function renderAll() {
+      if (!dataset) return;
+
+      const byTier = { 0: [], 1: [], 2: [], 3: [] };
+      for (const r of dataset.repos) {
+        const t = (r.tier in byTier) ? r.tier : (r.archived ? 3 : 1);
+        byTier[t].push(r);
+      }
+
+      // Tier 0 ignores the search filter so the alert grid stays stable.
+      const t0 = byTier[0].filter(r => {
+        if (qs("#hide-arch").checked  && r.archived) return false;
+        if (qs("#hide-forks").checked && r.fork)     return false;
+        return true;
       });
-    });
+      renderTier0(t0);
+
+      for (const t of TIER_TABLES) {
+        const raw = byTier[t.tier];
+        const section = qs("#" + t.sectionId);
+        if (t.hideWhenEmpty && raw.length === 0) {
+          section.style.display = "none";
+          continue;
+        }
+        section.style.display = "";
+        const filtered = applySort(applyFilters(raw));
+        qs("#" + t.countId).textContent = filtered.length ? `(${filtered.length})` : "";
+        renderTable(qs("#" + t.wrapId), filtered, t.includeCI);
+      }
+    }
+
+    function renderStatusPill(json) {
+      const pill = qs("#status-pill");
+      const alerts      = json.critical_alerts || [];
+      const fetchErrors = json.fetch_errors    || [];
+      const unclassified = json.unclassified_repos || [];
+      const fetchedAt   = json.fetched_at;
+      const fetchedAge  = relInfo(fetchedAt);
+      const ageText     = fetchedAt ? `Fetched ${fetchedAge.text}` : "Fetch time unknown";
+      const stale       = fetchedAt && (Date.now() - new Date(fetchedAt).getTime()) > 36 * 3600 * 1000;
+
+      pill.style.display = "block";
+      pill.classList.remove("green", "yellow", "red");
+
+      if (alerts.length > 0) {
+        pill.classList.add("red");
+        const items = alerts.map(a => {
+          const repo = escapeHtml(a.repo);
+          const wf   = escapeHtml(a.workflow);
+          const conc = escapeHtml(a.conclusion || "failure");
+          return `<li>
+            <a href="${escapeHtml(a.url)}" target="_blank" rel="noopener noreferrer">${repo}</a>
+            <span class="sep">&middot;</span>${wf}
+            <span class="sep">&middot;</span><strong>${conc}</strong>
+          </li>`;
+        }).join("");
+        pill.innerHTML = `
+          <div class="status-head">
+            <span class="status-icon"></span>
+            <span class="status-title">${alerts.length} critical alert${alerts.length === 1 ? "" : "s"}</span>
+            <span class="status-meta">${ageText}</span>
+          </div>
+          <ul>${items}</ul>`;
+        return;
+      }
+
+      const warnCount = fetchErrors.length + unclassified.length;
+      if (stale || warnCount > 0) {
+        pill.classList.add("yellow");
+        const title = stale
+          ? "Stale data"
+          : `${warnCount} warning${warnCount === 1 ? "" : "s"}`;
+        const detail = [];
+        if (fetchErrors.length)  detail.push(`${fetchErrors.length} fetch error${fetchErrors.length === 1 ? "" : "s"}`);
+        if (unclassified.length) detail.push(`${unclassified.length} unclassified repo${unclassified.length === 1 ? "" : "s"}`);
+        const detailText = detail.length ? ` &middot; ${detail.join(" · ")}` : "";
+        pill.innerHTML = `
+          <div class="status-head">
+            <span class="status-icon"></span>
+            <span class="status-title">${escapeHtml(title)}${detailText}</span>
+            <span class="status-meta">${ageText}</span>
+          </div>`;
+        return;
+      }
+
+      pill.classList.add("green");
+      pill.innerHTML = `
+        <div class="status-head">
+          <span class="status-icon"></span>
+          <span class="status-title">All Tier 0 systems green</span>
+          <span class="status-meta">${ageText}</span>
+        </div>`;
+    }
+
+    function renderIssuesPanel(json) {
+      const panel = qs("#issues-panel");
+      const fetchErrors  = json.fetch_errors      || [];
+      const unclassified = json.unclassified_repos || [];
+
+      if (!fetchErrors.length && !unclassified.length) {
+        panel.style.display = "none";
+        return;
+      }
+      panel.style.display = "block";
+
+      const parts = [];
+      const labels = [];
+      if (fetchErrors.length)  labels.push(`Fetch issues (${fetchErrors.length})`);
+      if (unclassified.length) labels.push(`Unclassified repos (${unclassified.length})`);
+      qs("#issues-panel-summary").textContent = labels.join(" · ");
+
+      if (fetchErrors.length) {
+        const items = fetchErrors.map(e => {
+          const repo = escapeHtml(e.repo || "?");
+          const ep   = escapeHtml(e.endpoint || "");
+          const msg  = escapeHtml(e.message  || "");
+          return `<li><code>${repo}</code> <span class="sep">&middot;</span> <code>${ep}</code> <span class="sep">&middot;</span> ${msg}</li>`;
+        }).join("");
+        parts.push(`<h3>Fetch issues (${fetchErrors.length})</h3><ul>${items}</ul>`);
+      }
+      if (unclassified.length) {
+        const list = unclassified.map(escapeHtml).join(", ");
+        parts.push(`<h3>Unclassified repos (${unclassified.length})</h3>
+          <p>${list}</p>
+          <p class="note">These repos defaulted to Tier 1. Add them to <code>config/orgs/&lt;org&gt;.json</code> to classify.</p>`);
+      }
+      qs("#issues-panel-body").innerHTML = parts.join("");
+    }
+
+    function renderHealth(dataset) {
+      const el = qs("#s-health");
+      const t0 = (dataset.repos || []).filter(r => r.tier === 0);
+      if (!t0.length) {
+        el.innerHTML = `<span class="dot idle"></span><span class="small">&mdash;</span>`;
+        return;
+      }
+      const failing = t0.filter(r => RED_CONCLUSIONS.has(ciConclusion(r))).length;
+      if (failing === 0) {
+        el.innerHTML = `<span class="dot ok"></span><span class="small">All green</span>`;
+      } else {
+        el.innerHTML = `<span class="dot bad"></span><span class="small">${failing} failing</span>`;
+      }
+    }
 
     async function init() {
       try {
-        // data.json sits alongside this index.html in each org's folder
         const res = await fetch("data.json");
         if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
         const json = await res.json();
+        dataset = json;
 
-        allRepos = json.repos;
-
-        qs("#page-title").textContent = `${json.org} — Repo Dashboard`;
-        document.title               = `${json.org} Dashboard`;
+        qs("#page-title").textContent = `${json.org} · Org Command Dashboard`;
+        document.title                = `${json.org} Org Command Dashboard`;
         qs("#org-link").href          = `https://github.com/${json.org}`;
         qs("#org-link").textContent   = `github.com/${json.org}`;
-        qs("#subtitle").textContent   = `${allRepos.length} repositories`;
-        qs("#footer-updated").textContent = `Last updated: ${fmtDateTime(json.fetched_at)}`;
 
-        const totalIssues = allRepos.reduce((s, r) => s + r.open_issues, 0);
-        const totalPRs    = allRepos.reduce((s, r) => s + r.open_prs, 0);
-        const withRel     = allRepos.filter(r => r.release).length;
+        const repos = json.repos || [];
+        qs("#subtitle").textContent  = `${repos.length} repositories`;
+        qs("#footer-updated").textContent = json.fetched_at ? `Last updated: ${fmtDateTime(json.fetched_at)}` : "";
 
-        qs("#s-repos").textContent  = allRepos.length;
+        const totalIssues = repos.reduce((s, r) => s + (r.open_issues || 0), 0);
+        const totalPRs    = repos.reduce((s, r) => s + (r.open_prs || 0), 0);
+        const withRel     = repos.filter(r => r.release).length;
+
+        qs("#s-repos").textContent  = repos.length;
         qs("#s-issues").textContent = totalIssues.toLocaleString();
         qs("#s-prs").textContent    = totalPRs.toLocaleString();
         qs("#s-rel").textContent    = withRel;
+        renderHealth(json);
+
+        renderStatusPill(json);
+        renderIssuesPanel(json);
 
         qs("#stats-bar").style.display = "grid";
         qs("#filters").style.display   = "flex";
-        renderTable();
+        qs("#main-content").style.display = "block";
+
+        renderAll();
 
       } catch (e) {
         qs("#subtitle").textContent = "";
         const box = qs("#error-box");
-        box.innerHTML = `<strong>Failed to load data.json:</strong> ${e.message}
-          <br><small>If running locally, use a local server: <code>npx serve docs</code></small>`;
+        box.innerHTML = `<strong>Failed to load data.json:</strong> ${escapeHtml(e.message)}
+          <br><small>If running locally, use a local server: <code>python3 -m http.server 8080 --directory docs</code></small>`;
         box.style.display = "block";
-        qs("#tbody").innerHTML = '<tr><td colspan="6" class="msg-cell">No data available.</td></tr>';
       }
     }
 

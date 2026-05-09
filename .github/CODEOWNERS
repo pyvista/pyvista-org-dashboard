@@ -1,0 +1,14 @@
+# CODEOWNERS for pyvista-org-dashboard.
+#
+# Purpose: require review from a maintainer team before merging changes that
+# touch the workflow + ops layer (CI/CD definitions, fetch/generate scripts,
+# tier configuration, dependency manifests). Other paths fall through to
+# default repo permissions.
+#
+# Replace @pyvista/maintainers with the actual team handle if different.
+
+/.github/workflows/  @pyvista/maintainers
+/scripts/            @pyvista/maintainers
+/config/             @pyvista/maintainers
+/package.json        @pyvista/maintainers
+/package-lock.json   @pyvista/maintainers
