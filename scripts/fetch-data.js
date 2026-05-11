@@ -205,17 +205,14 @@ async function fetchLatestRelease(octokit, org, repoName) {
 
 async function fetchLatestRunForWorkflow(octokit, org, repoName, workflowId, branch) {
   try {
-    const { data } = await octokit.request(
-      "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs",
-      {
-        owner: org,
-        repo: repoName,
-        workflow_id: workflowId,
-        branch,
-        per_page: 1,
-      },
-    );
-    const run = data.workflow_runs?.[0];
+    const endpoint = "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs";
+    const baseParams = { owner: org, repo: repoName, workflow_id: workflowId, per_page: 1 };
+    let { data } = await octokit.request(endpoint, { ...baseParams, branch });
+    let run = data.workflow_runs?.[0];
+    if (!run) {
+      ({ data } = await octokit.request(endpoint, baseParams));
+      run = data.workflow_runs?.[0];
+    }
     if (!run) return null;
     return {
       conclusion: run.conclusion || null,
