@@ -498,7 +498,7 @@ test("fetchWatchedRuns: matches by path, not name", async () => {
       ],
     },
     request: {
-      "GET /repos/{owner}/{repo}/actions/runs": async () => ({
+      "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs": async () => ({
         data: {
           workflow_runs: [
             {
@@ -581,7 +581,7 @@ test("fetchWatchedRuns: per-run fetch error surfaces conclusion='fetch_error' fo
       ],
     },
     request: {
-      "GET /repos/{owner}/{repo}/actions/runs": async () => {
+      "GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs": async () => {
         throw new Error("network fail");
       },
     },
