@@ -259,7 +259,9 @@ export async function fetchWatchedRuns(octokit, org, repoName, defaultBranch, wa
       return { path, wf };
     });
   } else {
-    selected = active.map((w) => ({ path: w.path, wf: w }));
+    selected = active
+      .filter((w) => w.path && w.path.startsWith(".github/workflows/"))
+      .map((w) => ({ path: w.path, wf: w }));
   }
 
   const results = [];
