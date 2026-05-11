@@ -299,7 +299,7 @@ export async function fetchWatchedRuns(octokit, org, repoName, defaultBranch, wa
       name: wf.name,
       path: wf.path || path || null,
       conclusion: run
-        ? run.conclusion || (isTier0 ? "missing" : "none")
+        ? run.conclusion || run.status || (isTier0 ? "missing" : "none")
         : isTier0
           ? "missing"
           : "none",
